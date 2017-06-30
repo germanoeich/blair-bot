@@ -1,0 +1,30 @@
+{
+  "name": "discord-bulbabot",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bufferutil": "^3.0.1",
+    "eris": "^0.7.0",
+    "erlpack": "hammerandchisel/erlpack",
+    "eventemitter3": "^2.0.3",
+    "node-opus": "^0.2.6",
+    "pre-commit": "^1.2.2",
+    "sodium-native": "^1.10.1",
+    "uws": "^8.14.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-node": "^6.5.3",
+    "babel-preset-env": "^1.5.2",
+    "nodemon": "^1.11.0",
+    "standard": "^10.0.2"
+  },
+  "scripts": {
+    "lint": "standard",
+    "build": "babel src -d build",
+    "start": "nodemon src/index.js --exec babel-node"
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}
