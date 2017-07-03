@@ -3,5 +3,5 @@ import config from './../config'
 
 export async function cache () {
   const conn = await MongoClient.connect(config.db.url)
-  return conn.collection('users')
+  return conn.collection('cache')
 }
