@@ -1,4 +1,5 @@
 import Pokedex from 'pokedex-promise-v2'
+import cache from './../util/cache.js'
 
 let _bot
 
@@ -11,19 +12,30 @@ async function action (msg, args) {
     return 'Specify only ONE pokemon at a time'
   }
 
-  let P = new Pokedex()
+  const P = new Pokedex()
+  const idOrName = args[0].toLowerCase()
   let pokeinfo
-  try {
-    pokeinfo = await P.getPokemonByName(args[0].toLowerCase())
-  } catch (e) {
-    console.error('ERR:', e)
-    return 'An error has occured:'
+
+  pokeinfo = cache.retrieve(idOrName)
+
+  if (pokeinfo === undefined) {
+    try {
+      console.log('not cached')
+      _bot.sendChannelTyping(msg.channel.id)
+      pokeinfo = await P.getPokemonByName(idOrName)
+      cache.add(pokeinfo)
+    } catch (e) {
+      console.error('ERR:', e)
+      return 'An error has occured:'
+    }
   }
 
   console.log(pokeinfo)
 
   let frontSprite = pokeinfo.sprites.front_default
   // let backSprite = pokeinfo.sprites.back_default
+
+  console.log(pokeinfo.abilities)
 
   _bot.createMessage(msg.channel.id,
     {
