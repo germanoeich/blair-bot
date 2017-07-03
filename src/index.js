@@ -1,14 +1,15 @@
 import Eris from 'eris'
 import config from './config'
-import { dispatchMsg } from './commands'
+import { registerCommands } from './commands'
 
-var bot = new Eris(config.token)
+var bot = new Eris.CommandClient(config.token, {}, {
+  prefix: 'b!'
+})
+
 bot.on('ready', () => {
   console.log('Ready!')
 })
-bot.on('messageCreate', (msg) => {
-  if (msg.content.startsWith(config.prefix)) {
-    dispatchMsg(msg, bot)
-  }
-})
+
+registerCommands(bot)
+
 bot.connect()

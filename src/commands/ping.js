@@ -1,10 +1,10 @@
-import config from './../config'
+function register (bot) {
+  bot.registerCommand('ping', 'Pong!', {
+    description: 'Pong!',
+    fullDescription: 'This command could be used to check if the bot is up. Or entertainment when you\'re bored.'
+  })
+}
 
 export default {
-  name: 'ping',
-  action: (msg, bot) => {
-    if (msg.content === config.prefix + 'ping') {
-      bot.createMessage(msg.channel.id, 'pong')
-    }
-  }
+  register
 }

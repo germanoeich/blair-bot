@@ -8,6 +8,7 @@
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",
     "node-opus": "^0.2.6",
+    "pokedex-promise-v2": "^3.0.3",
     "pre-commit": "^1.2.2",
     "sodium-native": "^1.10.1",
     "uws": "^8.14.0"

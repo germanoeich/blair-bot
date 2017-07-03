@@ -1,8 +1,7 @@
 import secrets from './secrets.js'
 
 const config = {
-  token: secrets.token,
-  prefix: 'b!'
+  token: secrets.token
 }
 
 export default config
