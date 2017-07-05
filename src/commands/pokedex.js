@@ -1,5 +1,6 @@
 import Pokedex from 'pokedex-promise-v2'
 import cache from './../util/cache.js'
+import { getImage } from './../util/imageManipulation.js'
 
 let _bot
 
@@ -17,26 +18,26 @@ async function action (msg, args) {
   let pokeinfo
 
   pokeinfo = cache.retrieve(idOrName)
-
-  if (pokeinfo === undefined) {
+  if (!pokeinfo) {
     try {
-      console.log('not cached')
       _bot.sendChannelTyping(msg.channel.id)
       pokeinfo = await P.getPokemonByName(idOrName)
+      console.log('Adding to cache')
       cache.add(pokeinfo)
     } catch (e) {
+      if (e.statusCode === 404) {
+        return 'That pokemon does not exist, try something else'
+      }
+
       console.error('ERR:', e)
-      return 'An error has occured:'
+      return `Shit happened when it shouldn't have. Detail: ${e.error.detail}`
     }
   }
-
-  console.log(pokeinfo)
 
   let frontSprite = pokeinfo.sprites.front_default
   // let backSprite = pokeinfo.sprites.back_default
 
-  console.log(pokeinfo.abilities)
-
+  getImage()
   _bot.createMessage(msg.channel.id,
     {
       embed: {
@@ -48,8 +49,8 @@ async function action (msg, args) {
         },
         image: {
           url: frontSprite,
-          width: 48,
-          height: 48
+          width: 96,
+          height: 96
         },
         color: 0x008000,
         fields: [

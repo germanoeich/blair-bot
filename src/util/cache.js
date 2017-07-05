@@ -13,19 +13,24 @@ export function isCached (pokemonIdOrName) {
 }
 
 export function retrieve (pokemonIdOrName) {
-  if (isCached) {
-    pokemonCache.forEach(function (p) {
-      if (p.id === pokemonIdOrName || p.name === pokemonIdOrName) {
-        return p
+  if (isCached(pokemonIdOrName)) {
+    var ret
+    pokemonCache.some(function (p) {
+      if (p.id == pokemonIdOrName || p.name === pokemonIdOrName) { // eslint-disable-line
+        ret = p
+        // some will break out of the loop if some (any) condition is true
+        return true
       }
+      // to continue the loop
+      return false
     }, this)
+    return ret
   }
-
   return undefined
 }
 
 export function add (pokemonInfo) {
-  if (!isCached()) {
+  if (!namesCached[pokemonInfo.name] || !idsCached[pokemonInfo.id]) {
     pokemonCache.push(pokemonInfo)
 
     // Values don't really matter
