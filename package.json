@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "bufferutil": "^3.0.1",
+    "canvas": "^1.6.5",
     "eris": "^0.7.0",
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",
     "mongodb": "^2.2.29",
+    "node-fetch": "^1.7.1",
     "node-opus": "^0.2.6",
     "pokedex-promise-v2": "^3.0.3",
     "pre-commit": "^1.2.2",
@@ -24,7 +26,8 @@
   "scripts": {
     "lint": "standard",
     "build": "babel src -d build",
-    "start": "nodemon src/index.js --exec babel-node"
+    "start": "nodemon src/index.js --exec babel-node",
+    "debug": "nodemon src/index.js --exec babel-node --inspect=5858"
   },
   "pre-commit": [
     "lint"

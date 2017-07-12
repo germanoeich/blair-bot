@@ -1,6 +1,6 @@
 import Pokedex from 'pokedex-promise-v2'
 import cache from './../util/cache.js'
-import { getImage } from './../util/imageManipulation.js'
+import { renderImage } from './../image/pokemon.js'
 
 let _bot
 
@@ -35,9 +35,7 @@ async function action (msg, args) {
   }
 
   let frontSprite = pokeinfo.sprites.front_default
-  // let backSprite = pokeinfo.sprites.back_default
 
-  getImage()
   _bot.createMessage(msg.channel.id,
     {
       embed: {
@@ -69,7 +67,12 @@ async function action (msg, args) {
           text: 'That\'s all folks'
         }
       }
-    })
+    },
+    {
+      file: await renderImage(pokeinfo),
+      name: 'test.png'
+    }
+  )
 }
 
 function register (bot) {
