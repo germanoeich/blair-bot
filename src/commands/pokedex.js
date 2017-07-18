@@ -1,6 +1,7 @@
 import Pokedex from 'pokedex-promise-v2'
 import cache from './../util/cache.js'
 import { renderImage } from './../image/pokemon.js'
+import { reorderArgs } from './../util/pokemon'
 
 let _bot
 
@@ -9,20 +10,20 @@ async function action (msg, args) {
     return 'Please specify a pokemon ID or Name'
   }
 
-  if (args.length > 1) {
-    return 'Specify only ONE pokemon at a time'
-  }
+  args = reorderArgs(args)
+  const idOrName = args.join('-').toLowerCase()
 
   const P = new Pokedex()
-  const idOrName = args[0].toLowerCase()
   let pokeinfo
+
+  console.log('\x1b[36m', `Pokedex received with args "${idOrName}"`)
 
   pokeinfo = cache.retrieve(idOrName)
   if (!pokeinfo) {
     try {
       _bot.sendChannelTyping(msg.channel.id)
       pokeinfo = await P.getPokemonByName(idOrName)
-      console.log('Adding to cache')
+      console.log('\x1b[34m', 'Adding pokemon to cache')
       cache.add(pokeinfo)
     } catch (e) {
       if (e.statusCode === 404) {
@@ -34,43 +35,13 @@ async function action (msg, args) {
     }
   }
 
-  let frontSprite = pokeinfo.sprites.front_default
+  console.log('\x1b[34m', `Got pokeinfo for "${pokeinfo.name}"`)
 
   _bot.createMessage(msg.channel.id,
-    {
-      embed: {
-        title: '',
-        description: '',
-        author: {
-          name: _bot.user.username,
-          icon_url: _bot.user.avatarURL
-        },
-        image: {
-          url: frontSprite,
-          width: 96,
-          height: 96
-        },
-        color: 0x008000,
-        fields: [
-          {
-            name: 'Pokemon Name',
-            value: pokeinfo.name,
-            inline: true
-          },
-          {
-            name: 'Pokemon Id',
-            value: pokeinfo.id,
-            inline: true
-          }
-        ],
-        footer: { // Footer text
-          text: 'That\'s all folks'
-        }
-      }
-    },
+    {},
     {
       file: await renderImage(pokeinfo),
-      name: 'test.png'
+      name: `pokedex-${pokeinfo.name}.png`
     }
   )
 }

@@ -1,17 +1,13 @@
-import Canvas, { Image } from 'canvas'
-import fetch from 'node-fetch'
+import Canvas from 'canvas'
+import { capitalizeName } from './../util/pokemon'
+import { drawRects, drawTexts, loadAndDrawImages } from './../util/image'
 
-async function loadImage (url) {
-  const response = await fetch(url)
-  const data = await response.buffer()
-  const img = new Image()
-  img.src = data
-  return img
-}
-
-const padding = 25
+const padding = 10
 const maxwidth = 240
 const maxheight = 220
+// those apply to both back and front sprites
+const imgW = 96
+const imgH = 96
 
 export async function renderImage (pokeinfo) {
   const canvas = new Canvas(maxwidth, maxheight)
@@ -26,32 +22,79 @@ export async function renderImage (pokeinfo) {
 }
 
 async function drawPokemonBlock (pokeinfo, ctx) {
-  // those apply to both back and front sprites
-  const imgW = 96
-  const imgH = 96
+  console.log('\x1b[32m', `Drawing "${pokeinfo.name}" block`)
+
+  // Background
+  const rects = [{
+    x: padding,
+    y: padding,
+    width: 220,
+    height: 35,
+    style: 'white'
+  },
+  {
+    x: padding,
+    y: 60,
+    width: 220,
+    height: 96,
+    style: 'white'
+  }]
+
+  drawRects(ctx, rects)
+
+  const texts = [{
+    text: capitalizeName(pokeinfo.name),
+    style: 'black',
+    font: '22px Consolas',
+    x: padding + 5,
+    y: 35
+  }]
+
+  const noFrontSpriteText = {
+    text: '?',
+    style: 'lightgray',
+    font: '48px Consolas',
+    x: padding + 35,
+    y: 60 + 65
+  }
+
+  const noBackSpriteText = {
+    text: '?',
+    style: 'lightgray',
+    font: '48px Consolas',
+    x: imgW + padding + 35,
+    y: 60 + 65
+  }
 
   const frontSprite = pokeinfo.sprites.front_default
   const backSprite = pokeinfo.sprites.back_default
 
-  const frontSpriteImg = await loadImage(frontSprite)
-  const backSpriteImg = await loadImage(backSprite)
+  const images = []
 
-  ctx.fillStyle = 'white'
-  ctx.fillRect(padding, padding, imgW * 2, imgH + 25)
+  if (frontSprite) {
+    images.push({
+      url: frontSprite,
+      x: padding,
+      y: 60,
+      width: imgW,
+      height: imgH
+    })
+  } else {
+    texts.push(noFrontSpriteText)
+  }
 
-  ctx.fillStyle = 'black'
-  ctx.font = '22px Impact'
-  ctx.fillText(pokeinfo.name, 30, 44)
+  if (backSprite) {
+    images.push({
+      url: backSprite,
+      x: padding + imgW,
+      y: 60,
+      width: imgW,
+      height: imgH
+    })
+  } else {
+    texts.push(noBackSpriteText)
+  }
 
-  ctx.strokeStyle = 'green'
-
-  const rectFrontX = 25
-  const rectFrontY = 50
-  ctx.strokeRect(rectFrontX, rectFrontY, imgW, imgH)
-  ctx.drawImage(frontSpriteImg, rectFrontX, rectFrontY, imgW, imgH)
-
-  var rectBackX = 25 + imgW
-  var rectBackY = 50
-  ctx.strokeRect(rectBackX, rectBackY, imgW, imgH)
-  ctx.drawImage(backSpriteImg, rectBackX, rectBackY, imgW, imgH)
+  await loadAndDrawImages(ctx, images, true)
+  drawTexts(ctx, texts)
 }
