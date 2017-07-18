@@ -1,5 +1,5 @@
 import Canvas from 'canvas'
-import { capitalizeName } from './../util/pokemon'
+import { capitalizeName } from './../util/pokemon-names'
 import { drawRects, drawTexts, loadAndDrawImages } from './../util/image'
 
 const padding = 10
@@ -39,8 +39,6 @@ async function drawPokemonBlock (pokeinfo, ctx) {
     height: 96,
     style: 'white'
   }]
-
-  drawRects(ctx, rects)
 
   const texts = [{
     text: capitalizeName(pokeinfo.name),
@@ -95,6 +93,7 @@ async function drawPokemonBlock (pokeinfo, ctx) {
     texts.push(noBackSpriteText)
   }
 
+  drawRects(ctx, rects)
   await loadAndDrawImages(ctx, images, true)
   drawTexts(ctx, texts)
 }

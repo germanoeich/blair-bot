@@ -1,7 +1,7 @@
 import Pokedex from 'pokedex-promise-v2'
 import cache from './../util/cache.js'
 import { renderImage } from './../image/pokemon.js'
-import { reorderArgs } from './../util/pokemon'
+import { reorderArgs } from './../util/pokemon-names'
 
 let _bot
 
