@@ -72,7 +72,7 @@ async function drawPokemonBlock (pokeinfo, ctx) {
   if (frontSprite) {
     images.push({
       url: frontSprite,
-      x: padding,
+      x: padding + 10,
       y: 60,
       width: imgW,
       height: imgH
@@ -84,7 +84,7 @@ async function drawPokemonBlock (pokeinfo, ctx) {
   if (backSprite) {
     images.push({
       url: backSprite,
-      x: padding + imgW,
+      x: padding + 18 + imgW,
       y: 60,
       width: imgW,
       height: imgH
