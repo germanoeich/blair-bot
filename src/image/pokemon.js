@@ -17,6 +17,7 @@ export async function renderImage (pokeinfo) {
   ctx.fillRect(0, 0, maxwidth, maxheight)
 
   await drawPokemonBlock(pokeinfo, ctx)
+  drawStatsBlock(pokeinfo, ctx)
 
   return canvas.toBuffer()
 }
@@ -96,4 +97,27 @@ async function drawPokemonBlock (pokeinfo, ctx) {
   drawRects(ctx, rects)
   await loadAndDrawImages(ctx, images, true)
   drawTexts(ctx, texts)
+}
+
+function drawStatsBlock (pokeinfo, ctx) {
+  const initialY = 156
+
+  const texts = [{
+    text: 'Stats',
+    style: 'black',
+    font: '22px Consolas',
+    x: padding + 5,
+    y: initialY + padding + 15
+  }]
+
+  const rects = [{
+    x: padding,
+    y: initialY + padding + 20,
+    width: 220,
+    height: 20,
+    style: 'red'
+  }]
+
+  drawTexts(ctx, texts)
+  drawRects(ctx, rects)
 }
