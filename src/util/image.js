@@ -20,7 +20,17 @@ export function drawTexts (ctx, texts) {
   texts.forEach(function (element) {
     ctx.fillStyle = element.style
     ctx.font = element.font
+    ctx.textAlign = element.textAlign || 'center'
+    ctx.textBaseline = 'middle'
     ctx.fillText(element.text, element.x, element.y)
+  })
+}
+
+export function drawOutlines (ctx, outlines) {
+  outlines.forEach(function (element) {
+    ctx.strokeStyle = element.style
+    ctx.lineWidth = element.lineWidth
+    ctx.strokeRect(element.x, element.y, element.width, element.height)
   })
 }
 
