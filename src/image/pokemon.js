@@ -73,7 +73,7 @@ async function drawPokemonBlock (pokeinfo, ctx) {
   }
 
   drawRects(ctx, rects)
-  await loadAndDrawImages(ctx, images, true)
+  await loadAndDrawImages(ctx, images)
   drawTexts(ctx, texts)
 }
 
@@ -95,14 +95,16 @@ function drawStatsBlock (pokeinfo, ctx) {
   const spDefense = pokeinfo.stats.find((element) => element.stat.name === 'special-defense').base_stat
   const speed = pokeinfo.stats.find((element) => element.stat.name === 'speed').base_stat
 
-  const barHeight = 15
+  const barHeight = 12
   const barWidth = (maxwidth - initialX - padding)
+  const spaceBetweenBars = 5
+  const yIncrement = (barHeight + spaceBetweenBars)
   drawStatBar(ctx, initialX, initialY, barWidth, barHeight, '#FF0000', '#FF5959', '#A60000', 'HP', hp, maxHp)
-  drawStatBar(ctx, initialX, initialY + 20, barWidth, barHeight, '#F08030', '#F5AC78', '#9C531F', 'Attack', attack, maxAttack)
-  drawStatBar(ctx, initialX, initialY + 40, barWidth, barHeight, '#F8D030', '#FAE078', '#A1871F', 'Defense', defense, maxDefense)
-  drawStatBar(ctx, initialX, initialY + 60, barWidth, barHeight, '#6890F0', '#9DB7F5', '#445E9C', 'Sp.Attack', spAttack, maxSpAttack)
-  drawStatBar(ctx, initialX, initialY + 80, barWidth, barHeight, '#78C850', '#A7DB8D', '#4E8234', 'Sp.Defense', spDefense, maxSpDefense)
-  drawStatBar(ctx, initialX, initialY + 100, barWidth, barHeight, '#F85888', '#FA92B2', '#A13959', 'Speed', speed, maxSpeed)
+  drawStatBar(ctx, initialX, initialY + yIncrement, barWidth, barHeight, '#F08030', '#F5AC78', '#9C531F', 'Attack', attack, maxAttack)
+  drawStatBar(ctx, initialX, initialY + (yIncrement * 2), barWidth, barHeight, '#F8D030', '#FAE078', '#A1871F', 'Defense', defense, maxDefense)
+  drawStatBar(ctx, initialX, initialY + (yIncrement * 3), barWidth, barHeight, '#6890F0', '#9DB7F5', '#445E9C', 'Sp.Attack', spAttack, maxSpAttack)
+  drawStatBar(ctx, initialX, initialY + (yIncrement * 4), barWidth, barHeight, '#78C850', '#A7DB8D', '#4E8234', 'Sp.Defense', spDefense, maxSpDefense)
+  drawStatBar(ctx, initialX, initialY + (yIncrement * 5), barWidth, barHeight, '#F85888', '#FA92B2', '#A13959', 'Speed', speed, maxSpeed)
 }
 
 function drawStatBar (ctx, x, y, width, height, color1, color2, color3, statName, statValue, maxValue) {
@@ -112,15 +114,6 @@ function drawStatBar (ctx, x, y, width, height, color1, color2, color3, statName
     font: '12px Consolas',
     x: x + (width / 2),
     y: y + (height / 2)
-  }]
-
-  const outLines = [{
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    style: color3,
-    lineWidth: 1
   }]
 
   const rects = [{
@@ -139,6 +132,5 @@ function drawStatBar (ctx, x, y, width, height, color1, color2, color3, statName
   }]
 
   drawRects(ctx, rects)
-  drawOutlines(ctx, outLines)
   drawTexts(ctx, texts)
 }
