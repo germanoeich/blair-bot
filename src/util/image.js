@@ -44,7 +44,7 @@ export async function loadAndDrawImages (ctx, images, drawGuideLines) {
     ctx.drawImage(element.img, element.x, element.y, element.width, element.height)
 
     if (drawGuideLines) {
-      ctx.strokeStyle = 'green'
+      ctx.strokeStyle = 'grey'
       ctx.strokeRect(element.x, element.y, element.width, element.height)
     }
   })
