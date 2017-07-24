@@ -5,6 +5,7 @@
   "dependencies": {
     "bufferutil": "^3.0.1",
     "canvas": "^1.6.5",
+    "chalk": "^2.0.1",
     "eris": "^0.7.0",
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",

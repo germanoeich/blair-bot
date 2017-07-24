@@ -1,10 +1,11 @@
 import Canvas from 'canvas'
+import chalk from 'chalk'
 import { capitalizeName } from './../util/pokemon-names'
 import { drawRects, drawTexts, loadAndDrawImages } from './../util/image'
 
 const padding = 10
 const maxwidth = 400
-const maxheight = 300
+const maxheight = 170
 // those apply to both back and front sprites
 const imgW = 96
 const imgH = 96
@@ -23,7 +24,7 @@ export async function renderImage (pokeinfo) {
 }
 
 async function drawPokemonBlock (pokeinfo, ctx) {
-  console.log('\x1b[32m', `Drawing "${pokeinfo.name}" block`)
+  console.log(chalk.green(`Drawing ${chalk.white.bgGreen(pokeinfo.name)} block`))
 
   const rects = [{
     x: padding,
