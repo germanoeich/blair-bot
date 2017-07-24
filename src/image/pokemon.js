@@ -1,6 +1,6 @@
 import Canvas from 'canvas'
 import { capitalizeName } from './../util/pokemon-names'
-import { drawRects, drawTexts, drawOutlines, loadAndDrawImages } from './../util/image'
+import { drawRects, drawTexts, loadAndDrawImages } from './../util/image'
 
 const padding = 10
 const maxwidth = 400
