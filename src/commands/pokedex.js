@@ -1,7 +1,7 @@
 import Pokedex from 'pokedex-promise-v2'
 import cache from './../util/cache.js'
 import chalk from 'chalk'
-import { renderImage } from './../image/pokemon.js'
+import { renderImage } from './../canvas/pokemon.js'
 import { reorderArgs } from './../util/pokemon-names'
 
 let _bot
@@ -32,7 +32,7 @@ async function action (msg, args) {
       }
 
       console.error('ERR:', chalk.red(e))
-      return `Shit happened when it shouldn't have. Detail: ${e.error.detail}`
+      return `Shit happened when it shouldn't have. Most likely PokeAPI is having problems.`
     }
   }
 

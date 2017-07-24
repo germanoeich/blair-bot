@@ -1,7 +1,7 @@
 import Canvas from 'canvas'
 import chalk from 'chalk'
 import { capitalizeName } from './../util/pokemon-names'
-import { drawRects, drawTexts, loadAndDrawImages } from './../util/image'
+import { drawRects, drawTexts, loadAndDrawImages } from './../util/canvas'
 
 const padding = 10
 const maxwidth = 400
