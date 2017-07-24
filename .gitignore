@@ -5,4 +5,4 @@ build/
 yarn.lock
 
 # the token should not be on the repo
-# src/config/secrets.js
+src/config/secrets.js
