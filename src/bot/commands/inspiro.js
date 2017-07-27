@@ -15,7 +15,7 @@ async function action () {
 function register (bot) {
   bot.registerCommand('inspiro', action, {
     description: 'Fetch a InspiroBot image',
-    fullDescription: 'Fetches a fresh inspirobot generated image. So you can enjoy the wonders of inspirational AI.'
+    fullDescription: 'Fetches a fresh inspirobot generated image. Enjoy the wonders of this (most likely not) inspirational AI!'
   })
 }
 

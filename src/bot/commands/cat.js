@@ -4,7 +4,6 @@ import chalk from 'chalk'
 async function action () {
   try {
     var response = await fetch('http://random.cat/meow')
-
     return (await response.json()).file
   } catch (e) {
     console.error('ERR:', chalk.red(e))

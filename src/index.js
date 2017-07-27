@@ -1,6 +1,6 @@
 import Eris from 'eris'
-import config from './config'
-import { registerCommands } from './commands'
+import config from './bot/config'
+import { registerCommands } from './bot/commands'
 
 var bot = new Eris.CommandClient(config.token, {}, {
   prefix: ['@mention ', 'b!'],

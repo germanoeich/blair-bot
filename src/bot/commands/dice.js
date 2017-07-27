@@ -1,11 +1,11 @@
 function action (msg, args) {
   console.log(`dice with args ${args}`)
   if (args.length === 0) {
-    return 'You rolled a solid ' + randomInt(1, 6)
+    return 'You rolled a ' + randomInt(1, 6)
   }
 
   if (args.length === 1) {
-    return 'You rolled a solid ' + randomInt(1, args[0])
+    return 'You rolled a ' + randomInt(1, args[0])
   }
 
   if (args.length === 2) {
