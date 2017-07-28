@@ -1,5 +1,5 @@
 import ping from './ping'
-import pokedex from './pokedex'
+import pokedex from './pokemon'
 import dice from './dice'
 import inspiro from './inspiro'
 import cat from './cat'

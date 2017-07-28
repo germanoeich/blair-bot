@@ -20,6 +20,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-node": "^6.5.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "nodemon": "^1.11.0",
     "standard": "^10.0.2"

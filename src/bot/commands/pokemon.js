@@ -56,10 +56,12 @@ async function action (msg, args) {
 
 function register (bot) {
   _bot = bot
-  bot.registerCommand('pokedex', action, {
-    description: 'Pokedex <Pokemon ID or Name>',
-    fullDescription: 'Use to gather information about a pokemon'
+  bot.registerCommand('pokemon', action, {
+    description: 'Pokemon <Pokemon ID or Name>',
+    fullDescription: 'Used to gather information about a pokemon'
   })
+
+  bot.registerCommandAlias('pokedex', 'pokemon')
 }
 
 export default {
