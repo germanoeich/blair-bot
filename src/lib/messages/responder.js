@@ -8,7 +8,7 @@ class FormatedString {
       { name: 'bold', symbol1: '**', symbol2: '**', mode: 'surround' },
       { name: 'underline', symbol1: '__', symbol2: '__', mode: 'surround' },
       { name: 'inlineCode', symbol1: '`', symbol2: '`', mode: 'surround' },
-      { name: 'code', symbol1: '```{{args}}', symbol2: '```', mode: 'args-surround' },
+      { name: 'code', symbol1: '```{{args}}\n', symbol2: '```', mode: 'args-surround' },
       { name: 'bold', symbol1: '**', symbol2: '**', mode: 'surround' },
       { name: 'success', symbol1: '**:white_check_mark: - ', mode: 'prefix' }
     ]
@@ -68,22 +68,22 @@ class Responder extends FormatedString {
   }
 
   async send () {
-    await bot.createMessage(this.channel.id,
+    return bot.createMessage(this.channel.id,
     { content: this.str, embed: this.embed },
     this.file)
   }
 
-  async waitSingle (handler, timeout = 30) {
+  async waitSingle (userMsg, timeout = 30) {
     return new Promise((resolve, reject) => {
       bot.on('messageCreate', function (msg) {
-        handler(msg)
-        bot.removeListener(handler)
-        resolve(msg)
+        if (msg.author.id === userMsg.author.id && msg.channel.id === userMsg.channel.id) {
+          resolve(msg)
+        }
       })
 
       setTimeout(() => {
-        reject() // eslint-disable-line
-      }, timeout)
+        reject(new Error('timeout'))
+      }, timeout * 1000)
     })
   }
 }

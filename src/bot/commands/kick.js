@@ -6,9 +6,8 @@ async function action (msg, args) {
   if (args.length === 0) {
     return 'Specify an user'
   }
-  console.log('Trying to find user')
+
   var user = await targetSelector.find(msg, args[0])
-  console.log(user)
   return user.mention
 }
 
