@@ -1,7 +1,9 @@
 import TargetSelector from './../../lib/util/target-selector'
+import Responder from './../../lib/messages/responder.js'
 
 async function action (msg, args) {
   var targetSelector = new TargetSelector()
+  var responder = new Responder(msg.channel)
 
   if (args.length === 0) {
     return 'Specify an user'
@@ -9,7 +11,13 @@ async function action (msg, args) {
 
   var user = await targetSelector.find(msg, args[0])
 
-  return user.mention
+  if (!user) {
+    responder.error('User not found')
+  } else {
+    responder.success(`User ${user.username}#${user.discriminator} ( ${user.id} ) was kicked from the server`)
+  }
+  console.log(user)
+  responder.send()
 }
 
 function register (bot) {

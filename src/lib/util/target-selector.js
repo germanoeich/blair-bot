@@ -29,8 +29,8 @@ class TargetSelector {
 
       let options = ''
       probableMatches.forEach((value, index) => {
-        const alias = (value.member.nick) ? ` (AKA: ${value.member.nick})` : ''
-        options += `[${index}] ${value.member.username}${alias}\n`
+        const alias = (value.member.nick) ? `(AKA: ${value.member.nick})` : ''
+        options += `[${index}] ${value.member.username}#${value.member.discriminator} ${alias}\n`
       })
 
       await responder
