@@ -8,6 +8,7 @@ async function action (msg, args) {
   }
 
   var user = await targetSelector.find(msg, args[0])
+
   return user.mention
 }
 

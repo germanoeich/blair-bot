@@ -25,27 +25,52 @@ class TargetSelector {
         return
       }
 
+      const responder = new Responder(msg.channel)
+
+      let options = ''
+      probableMatches.forEach((value, index) => {
+        const alias = (value.member.nick) ? ` (AKA: ${value.member.nick})` : ''
+        options += `[${index}] ${value.member.username}${alias}\n`
+      })
+
+      await responder
+      .bold('Multiple matches, please choose one (or type cancel):')
+      .newline()
+      .code(options, 'Haskell')
+      .send()
+
       try {
-        const responder = new Responder(msg.channel)
+        let selectedMatch
+        do {
+          const response = await responder.waitSingle(msg)
 
-        let options = ''
-        probableMatches.forEach((value, index) => {
-          const alias = (value.member.nick) ? ` (AKA: ${value.member.nick})` : ''
-          options += `[${index}] ${value.member.username}${alias}\n`
-        })
+          if (response.content === 'cancel') {
+            break
+          }
 
-        console.log(options)
+          if (!Number.isNaN(parseInt(response.content))) {
+            selectedMatch = probableMatches[response.content]
+            if (selectedMatch) {
+              resolve(selectedMatch.member.user)
+              break
+            }
+          }
 
-        await responder
-        .bold('Multiple matches, please choose one by typing the number displayed beside the user (you have 60 seconds and 3 tries):')
-        .newline()
-        .code(options, 'Haskell')
-        .send()
-
-        var response = await responder.waitSingle(msg)
-        resolve(probableMatches[response.content].member.user)
+          await responder
+          .error('Invalid input, please try again')
+          .send()
+        } while (true)
       } catch (err) {
+        if (err.message === 'timeout') {
+          await responder
+          .error('Prompt cancelled because of inactivity')
+          .send()
+
+          resolve(undefined)
+        }
+
         console.error(err)
+        reject(err)
       }
     })
   }

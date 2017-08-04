@@ -10,7 +10,8 @@ class FormatedString {
       { name: 'inlineCode', symbol1: '`', symbol2: '`', mode: 'surround' },
       { name: 'code', symbol1: '```{{args}}\n', symbol2: '```', mode: 'args-surround' },
       { name: 'bold', symbol1: '**', symbol2: '**', mode: 'surround' },
-      { name: 'success', symbol1: '**:white_check_mark: - ', mode: 'prefix' }
+      { name: 'success', symbol1: '**:white_check_mark: - ', symbol2: '**', mode: 'surround' },
+      { name: 'error', symbol1: '**:x: - ', symbol2: '**', mode: 'surround' }
     ]
 
     // Basically we turn that array of formatting options into actual chainable methods
@@ -68,12 +69,18 @@ class Responder extends FormatedString {
   }
 
   async send () {
-    return bot.createMessage(this.channel.id,
+    var ret = bot.createMessage(this.channel.id,
     { content: this.str, embed: this.embed },
     this.file)
+
+    this.str = ''
+    this.embed = undefined
+    this.file = undefined
+
+    return ret
   }
 
-  async waitSingle (userMsg, timeout = 30) {
+  async waitSingle (userMsg, timeout = 60) {
     return new Promise((resolve, reject) => {
       bot.on('messageCreate', function (msg) {
         if (msg.author.id === userMsg.author.id && msg.channel.id === userMsg.channel.id) {
