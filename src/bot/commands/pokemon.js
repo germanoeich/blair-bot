@@ -3,9 +3,16 @@ import { TwinKeyCache } from './../../lib/cache'
 import chalk from 'chalk'
 import { renderImage } from './../canvas/pokemon.js'
 import { reorderArgs } from './../util/pokemon-names.js'
+import { bot } from './../../lib/index.js'
 const { log, error } = console
 
-let _bot
+const info = {
+  name: 'pokemon',
+  args: '<Id | Name>',
+  description: 'generates an image with pokemon info',
+  alias: 'pokedex'
+}
+
 const cache = new TwinKeyCache(12)
 
 async function action (msg, args) {
@@ -24,7 +31,7 @@ async function action (msg, args) {
   pokeinfo = cache.retrieve(idOrName)
   if (!pokeinfo) {
     try {
-      _bot.sendChannelTyping(msg.channel.id)
+      bot.sendChannelTyping(msg.channel.id)
       pokeinfo = await P.getPokemonByName(idOrName)
       log(chalk.blue('Adding pokemon to cache'))
       cache.add(pokeinfo.id, pokeinfo.name, pokeinfo)
@@ -41,7 +48,7 @@ async function action (msg, args) {
   log(chalk.blue(`Got pokeinfo for ${chalk.white.bgBlue(pokeinfo.name)}`))
 
   try {
-    _bot.createMessage(msg.channel.id,
+    bot.createMessage(msg.channel.id,
       {},
       {
         file: await renderImage(pokeinfo),
@@ -54,16 +61,12 @@ async function action (msg, args) {
   }
 }
 
-function register (bot) {
-  _bot = bot
-  bot.registerCommand('pokemon', action, {
-    description: 'Pokemon <Pokemon ID or Name>',
-    fullDescription: 'Used to gather information about a pokemon'
-  })
-
-  bot.registerCommandAlias('pokedex', 'pokemon')
+function register () {
+  bot.registerCommand('pokemon', action, info)
+  bot.registerCommandAlias(info.alias, 'pokemon')
 }
 
 export default {
+  info,
   register
 }

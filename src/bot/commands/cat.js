@@ -1,5 +1,11 @@
 import fetch from 'node-fetch'
 import chalk from 'chalk'
+import { bot } from './../../lib/index.js'
+
+const info = {
+  name: 'cat',
+  description: 'fetch a random cat image'
+}
 
 async function action () {
   try {
@@ -11,13 +17,11 @@ async function action () {
   }
 }
 
-function register (bot) {
-  bot.registerCommand('cat', action, {
-    description: 'Fetch a random cat image',
-    fullDescription: 'Fetches a random cat image'
-  })
+function register () {
+  bot.registerCommand(info.name, action, info)
 }
 
 export default {
+  info,
   register
 }

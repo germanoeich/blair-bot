@@ -1,19 +1,21 @@
-let _bot
+import { bot } from './../../lib/index.js'
+
+const info = {
+  name: 'ping',
+  description: 'pong!'
+}
 
 function action (msg) {
-  _bot.createMessage(msg.channel.id, ':ping_pong: Pong!').then(function (botMsg) {
+  bot.createMessage(msg.channel.id, ':ping_pong: Pong!').then(function (botMsg) {
     botMsg.edit(`${botMsg.content} - **${botMsg.timestamp - msg.timestamp} ms** `)
   })
 }
 
-function register (bot) {
-  _bot = bot
-  bot.registerCommand('ping', action, {
-    description: 'Pong!',
-    fullDescription: 'This command could be used to check if the bot is up. Or entertainment when you\'re bored.'
-  })
+function register () {
+  bot.registerCommand(info.name, action, info)
 }
 
 export default {
+  info,
   register
 }

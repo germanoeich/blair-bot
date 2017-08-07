@@ -5,14 +5,14 @@ import init from './lib'
 
 var bot = new Eris.CommandClient(config.token, {}, {
   prefix: ['@mention ', 'b!'],
-  owner: 'Gin#1913'
+  owner: 'Gin#1913',
+  defaultHelpCommand: false
 })
 
 bot.on('ready', () => {
   console.log('Ready!')
   init(bot)
+  registerCommands(bot)
 })
-
-registerCommands(bot)
 
 bot.connect()

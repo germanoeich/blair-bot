@@ -1,5 +1,12 @@
 import fetch from 'node-fetch'
 import chalk from 'chalk'
+import { bot } from './../../lib/index.js'
+
+const info = {
+  name: 'inspiro',
+  description: 'fetch a inspirobot image',
+  alias: 'inspirobot'
+}
 
 async function action () {
   try {
@@ -12,13 +19,12 @@ async function action () {
   }
 }
 
-function register (bot) {
-  bot.registerCommand('inspiro', action, {
-    description: 'Fetch a InspiroBot image',
-    fullDescription: 'Fetches a fresh inspirobot generated image. Enjoy the wonders of this (most likely not) inspirational AI!'
-  })
+function register () {
+  bot.registerCommand(info.name, action, info)
+  bot.registerCommandAlias(info.alias, info.name)
 }
 
 export default {
+  info,
   register
 }

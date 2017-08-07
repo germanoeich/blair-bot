@@ -1,5 +1,12 @@
+import { bot } from './../../lib/index.js'
+
+const info = {
+  name: 'dice',
+  args: '[Number Of Sides] [Number Of Dices]',
+  description: 'Rolls a number. Args defaults to 6 sides and 1 dice'
+}
+
 function action (msg, args) {
-  console.log(`dice with args ${args}`)
   if (args.length === 0) {
     return 'You rolled a ' + randomInt(1, 6)
   }
@@ -30,13 +37,11 @@ function randomInt (low, high) {
   return Math.floor(Math.random() * (high - low + 1) + low)
 }
 
-function register (bot) {
-  bot.registerCommand('dice', action, {
-    description: 'Rolls a number',
-    fullDescription: 'Rolls a number. Usage: b!dice [number of sides] [number of dices], defaults to 6 sides and 1 dice'
-  })
+function register () {
+  bot.registerCommand(info.name, action, info)
 }
 
 export default {
+  info,
   register
 }

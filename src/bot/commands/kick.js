@@ -1,5 +1,12 @@
 import TargetSelector from './../../lib/util/target-selector'
 import Responder from './../../lib/messages/responder.js'
+import { bot } from './../../lib/index.js'
+
+const info = {
+  name: 'kick',
+  args: '<Username | Userid | User Mention> - target selector capable',
+  description: 'kicks someone from the server'
+}
 
 async function action (msg, args) {
   var targetSelector = new TargetSelector()
@@ -25,13 +32,11 @@ async function action (msg, args) {
   responder.send()
 }
 
-function register (bot) {
-  bot.registerCommand('kick', action, {
-    description: 'Kicks someone',
-    fullDescription: 'This command could be used to check if the bot is up. Or entertainment when you\'re bored.'
-  })
+function register () {
+  bot.registerCommand(info.name, action, info)
 }
 
 export default {
+  info,
   register
 }
