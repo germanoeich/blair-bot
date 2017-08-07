@@ -9,26 +9,32 @@ const info = {
 }
 
 async function action (msg, args) {
-  var targetSelector = new TargetSelector()
   var responder = new Responder(msg.channel)
+
+  if (!msg.member.permission.has('kickMembers')) {
+    responder.error('You need the "(kickMembers)" permission for that.')
+    return
+  }
+
+  var targetSelector = new TargetSelector()
 
   if (args.length === 0) {
     return 'Specify an user'
   }
 
-  var user = await targetSelector.find(msg, args[0])
+  var member = await targetSelector.find(msg, args[0])
 
   // Prompt cancelled
-  if (user === false) {
+  if (member === false) {
     return
   }
 
-  if (!user) {
+  if (!member) {
     responder.error('User not found')
   } else {
-    responder.success(`User ${user.username}#${user.discriminator} ( ${user.id} ) was kicked from the server`)
+    responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`)
   }
-  console.log(user)
+
   responder.send()
 }
 
