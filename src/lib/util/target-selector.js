@@ -1,5 +1,5 @@
-// import { bot } from './../index.js'
-import Responder from './../messages/responder.js'
+import Responder from './../messages/responder'
+import integrity from './../internal/integrity'
 
 class TargetSelector {
   async find (msg, name) {
@@ -16,7 +16,7 @@ class TargetSelector {
       .filter((member) => member)
 
       if (probableMatches.length === 0) {
-        resolve(undefined)
+        resolve(false)
         return
       }
 
@@ -26,6 +26,15 @@ class TargetSelector {
       }
 
       const responder = new Responder(msg.channel)
+
+      if (!integrity.canPrompt(msg.author)) {
+        await responder
+        .promptBlocked()
+        .send()
+        return
+      }
+
+      integrity.startPrompt(msg.author)
 
       let options = ''
       probableMatches.forEach((value, index) => {
@@ -57,21 +66,23 @@ class TargetSelector {
           }
 
           await responder
-          .error('Invalid input, please try again')
+          .invalidInput()
           .send()
         } while (true)
       } catch (err) {
         if (err.message === 'timeout') {
           await responder
-          .error('Prompt cancelled because of inactivity')
+          .promptTimeout()
           .send()
 
-          resolve(undefined)
+          resolve(false)
+        } else {
+          console.error(err)
+          reject(err)
         }
-
-        console.error(err)
-        reject(err)
       }
+      console.log('endPrompt')
+      integrity.endPrompt(msg.author)
     })
   }
 }

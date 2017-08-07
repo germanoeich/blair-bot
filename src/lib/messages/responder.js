@@ -11,7 +11,10 @@ class FormatedString {
       { name: 'code', symbol1: '```{{args}}\n', symbol2: '```', mode: 'args-surround' },
       { name: 'bold', symbol1: '**', symbol2: '**', mode: 'surround' },
       { name: 'success', symbol1: '**:white_check_mark: - ', symbol2: '**', mode: 'surround' },
-      { name: 'error', symbol1: '**:x: - ', symbol2: '**', mode: 'surround' }
+      { name: 'error', symbol1: '**:x: - ', symbol2: '**', mode: 'surround' },
+      { name: 'invalidInput', msg: '**:x: - Invalid input, please try again**', mode: 'msg' },
+      { name: 'promptTimeout', msg: '**:x: - Prompt cancelled because of inactivity**', mode: 'msg' },
+      { name: 'promptBlocked', msg: '**:x: - You already have an active prompt**', mode: 'msg' }
     ]
 
     // Basically we turn that array of formatting options into actual chainable methods
@@ -33,6 +36,13 @@ class FormatedString {
       if (element.mode === 'args-surround') {
         this[element.name] = function (str, args) {
           this.str += `${element.symbol1.replace('{{args}}', args || '')}${str}${element.symbol2}`
+          return this
+        }
+      }
+
+      if (element.mode === 'msg') {
+        this[element.name] = function () {
+          this.str = element.msg
           return this
         }
       }

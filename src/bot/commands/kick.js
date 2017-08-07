@@ -11,6 +11,11 @@ async function action (msg, args) {
 
   var user = await targetSelector.find(msg, args[0])
 
+  // Prompt cancelled
+  if (user === false) {
+    return
+  }
+
   if (!user) {
     responder.error('User not found')
   } else {
