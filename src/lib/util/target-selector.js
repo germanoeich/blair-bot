@@ -1,4 +1,5 @@
 import Responder from './../messages/responder'
+import DeleteQueue from './../messages/deleteQueue'
 import integrity from './../internal/integrity'
 
 class TargetSelector {
@@ -60,14 +61,14 @@ class TargetSelector {
       .code(options, 'Haskell')
       .send()
 
-      let lastFailMsg
+      const deleteQueue = new DeleteQueue()
       try {
         let selectedMatch
         do {
           const response = await responder.waitSingle(msg)
 
           if (response.content === 'cancel') {
-            await responder.success('Prompt cancelled').send()
+            await responder.success('Prompt cancelled').ttl(10).send()
             break
           }
 
@@ -79,25 +80,21 @@ class TargetSelector {
             }
           }
 
-          if (lastFailMsg) {
-            lastFailMsg.delete()
-          }
+          deleteQueue.deleteAll()
 
-          lastFailMsg = await responder
+          deleteQueue.add(await responder
           .invalidInput()
-          .send()
+          .send())
         } while (true)
-        if (lastFailMsg) {
-          lastFailMsg.delete()
-        }
+
+        deleteQueue.deleteAll()
       } catch (err) {
         if (err.message === 'timeout') {
-          if (lastFailMsg) {
-            lastFailMsg.delete()
-          }
+          deleteQueue.deleteAll()
 
           await responder
           .promptTimeout()
+          .ttl(10)
           .send()
 
           resolve(false)
@@ -106,6 +103,7 @@ class TargetSelector {
           reject(err)
         }
       }
+
       integrity.endPrompt(msg.author)
     })
   }

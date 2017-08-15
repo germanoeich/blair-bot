@@ -68,24 +68,37 @@ class Responder extends FormatedString {
     this.str = ''
     this.file = undefined
     this.embed = undefined
+    this._ttl = 0
   }
 
   file (file) {
     this.file = file
+    return this
   }
 
   embed (embed) {
     this.embed = embed
+    return this
+  }
+
+  ttl (seconds) {
+    this._ttl = seconds * 1000
+    return this
   }
 
   async send () {
-    var ret = bot.createMessage(this.channel.id,
+    var ret = await bot.createMessage(this.channel.id,
     { content: this.str, embed: this.embed },
     this.file)
+
+    if (this._ttl > 0) {
+      setTimeout(() => ret.delete(), this._ttl)
+    }
 
     this.str = ''
     this.embed = undefined
     this.file = undefined
+    this._ttl = 0
 
     return ret
   }
