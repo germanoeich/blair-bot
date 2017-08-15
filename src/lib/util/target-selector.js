@@ -60,6 +60,7 @@ class TargetSelector {
       .code(options, 'Haskell')
       .send()
 
+      let lastFailMsg
       try {
         let selectedMatch
         do {
@@ -78,12 +79,23 @@ class TargetSelector {
             }
           }
 
-          await responder
+          if (lastFailMsg) {
+            lastFailMsg.delete()
+          }
+
+          lastFailMsg = await responder
           .invalidInput()
           .send()
         } while (true)
+        if (lastFailMsg) {
+          lastFailMsg.delete()
+        }
       } catch (err) {
         if (err.message === 'timeout') {
+          if (lastFailMsg) {
+            lastFailMsg.delete()
+          }
+
           await responder
           .promptTimeout()
           .send()
