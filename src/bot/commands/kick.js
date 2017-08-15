@@ -4,26 +4,26 @@ import { bot } from './../../lib/index.js'
 
 const info = {
   name: 'kick',
-  args: '<Username | Userid | User Mention> - target selector capable',
+  args: '<Username | Userid | User Mention> [Reason] - target selector capable',
   description: 'kicks someone from the server'
 }
 
 async function action (msg, args) {
-  var responder = new Responder(msg.channel)
+  const responder = new Responder(msg.channel)
 
   if (!msg.member.permission.has('kickMembers')) {
     responder.error('You need the "(kickMembers)" permission for that.')
     return
   }
 
-  var targetSelector = new TargetSelector()
+  const targetSelector = new TargetSelector()
 
   if (args.length === 0) {
     return 'Specify an user'
   }
 
-  var member = await targetSelector.find(msg, args[0])
-
+  let member = await targetSelector.find(msg, args[0])
+  const reason = args[1] || ''
   // Prompt cancelled
   if (member === false) {
     return
@@ -32,7 +32,14 @@ async function action (msg, args) {
   if (!member) {
     responder.error('User not found')
   } else {
-    responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`)
+    try {
+      await member.kick(reason)
+      responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`)
+    } catch (e) {
+      const error = JSON.parse(e.response)
+
+      responder.error(`Failed with error: ${error.code} - ${error.message} `)
+    }
   }
 
   responder.send()
