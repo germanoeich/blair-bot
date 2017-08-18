@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import chalk from 'chalk'
-import { bot } from './../../lib/index.js'
+import { bot } from '/lib/index.js'
 
 const info = {
   name: 'inspiro',

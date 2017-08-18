@@ -1,4 +1,4 @@
-import { bot } from './../../lib/index.js'
+import { bot } from '/lib/index.js'
 
 const info = {
   name: 'dice',

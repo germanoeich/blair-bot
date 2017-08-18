@@ -1,6 +1,6 @@
-import TargetSelector from './../../lib/util/target-selector'
-import Responder from './../../lib/messages/responder.js'
-import { bot } from './../../lib/index.js'
+import TargetSelector from '/lib/util/target-selector'
+import Responder from '/lib/messages/responder.js'
+import { bot } from '/lib/index.js'
 
 const info = {
   name: 'kick',

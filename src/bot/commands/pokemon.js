@@ -1,9 +1,10 @@
 import Pokedex from 'pokedex-promise-v2'
-import { TwinKeyCache } from './../../lib/cache'
+import { TwinKeyCache } from '/lib/cache'
+import Responder from '/lib/messages/responder'
 import chalk from 'chalk'
-import { renderImage } from './../canvas/pokemon.js'
-import { reorderArgs } from './../util/pokemon-names.js'
-import { bot } from './../../lib/index.js'
+import { renderImage } from '/bot/canvas/pokemon.js'
+import { reorderArgs } from '/bot/util/pokemon-names.js'
+import { bot } from '/lib/index.js'
 const { log, error } = console
 
 const info = {
@@ -16,8 +17,10 @@ const info = {
 const cache = new TwinKeyCache(12)
 
 async function action (msg, args) {
+  const responder = new Responder(msg.channel)
+
   if (args.length === 0) {
-    return 'Please specify a pokemon ID or Name'
+    responder.bold('Please specify a pokemon ID or Name').send()
   }
 
   args = reorderArgs(args)
