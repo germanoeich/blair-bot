@@ -9,6 +9,7 @@ function action (msg) {
   bot.createMessage(msg.channel.id, ':ping_pong: Pong!').then(function (botMsg) {
     botMsg.edit(`${botMsg.content} - **${botMsg.timestamp - msg.timestamp} ms** `)
   })
+  // bot.editStatus('dnd', {name: 'nottest', type: 0})
 }
 
 function register () {
