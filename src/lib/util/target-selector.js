@@ -12,6 +12,7 @@ class TargetSelector {
         // This is strange, but the arg will not have the ! even when the user has a nickname
         if (member.mention.replace(/<@!/g, '<@') === arg ||
             member.username.toLowerCase().includes(arg.toLowerCase()) ||
+            (member.nick && member.nick.toLowerCase().includes(arg.toLowerCase())) ||
             (numericArg && member.id.startsWith(arg)) ||
             (hashtagArg && ('#' + member.user.discriminator).startsWith(arg))) {
           return member
