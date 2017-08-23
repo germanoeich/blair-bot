@@ -9,19 +9,11 @@ class TargetSelector {
       let numericArg = !hashtagArg && !Number.isNaN(parseInt(arg))
 
       const probableMatches = msg.channel.guild.members.filter((member) => !member.bot).map((member) => {
-        if (member.mention.replace('@!', '@') === arg) {
-          return member
-        }
-
-        if (member.username.toLowerCase().includes(arg.toLowerCase())) {
-          return member
-        }
-
-        if (numericArg && member.id.startsWith(arg)) {
-          return member
-        }
-
-        if (hashtagArg && ('#' + member.user.discriminator).startsWith(arg)) {
+        // This is strange, but the arg will not have the ! even when the user has a nickname
+        if (member.mention.replace(/<@!/g, '<@') === arg ||
+            member.username.toLowerCase().includes(arg.toLowerCase()) ||
+            (numericArg && member.id.startsWith(arg)) ||
+            (hashtagArg && ('#' + member.user.discriminator).startsWith(arg))) {
           return member
         }
       })
