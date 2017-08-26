@@ -1,3 +1,3 @@
 import { connect } from '/bot/index.js'
 
-connect()
+connect().catch(() => console.error)
