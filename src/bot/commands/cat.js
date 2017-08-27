@@ -1,6 +1,5 @@
 import fetch from 'node-fetch'
 import chalk from 'chalk'
-import { bot } from '/lib/index.js'
 
 const info = {
   name: 'cat',
@@ -17,7 +16,7 @@ async function action () {
   }
 }
 
-function register () {
+function register (bot) {
   bot.registerCommand(info.name, action, info)
 }
 

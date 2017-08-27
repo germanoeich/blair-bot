@@ -1,6 +1,5 @@
 import TargetSelector from '/lib/util/target-selector'
 import Responder from '/lib/messages/responder.js'
-import { bot } from '/lib/index.js'
 
 const info = {
   name: 'kick',
@@ -45,7 +44,7 @@ async function action (msg, args) {
   responder.send()
 }
 
-function register () {
+function register (bot) {
   bot.registerCommand(info.name, action, info)
 }
 

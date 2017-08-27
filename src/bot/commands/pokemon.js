@@ -4,7 +4,6 @@ import Responder from '/lib/messages/responder'
 import chalk from 'chalk'
 import { renderImage } from '/bot/canvas/pokemon.js'
 import { reorderArgs } from '/bot/util/pokemon-names.js'
-import { bot } from '/lib/index.js'
 const { log, error } = console
 
 const info = {
@@ -34,7 +33,7 @@ async function action (msg, args) {
   pokeinfo = cache.retrieve(idOrName)
   if (!pokeinfo) {
     try {
-      bot.sendChannelTyping(msg.channel.id)
+      msg._client.sendChannelTyping(msg.channel.id)
       pokeinfo = await P.getPokemonByName(idOrName)
       log(chalk.blue('Adding pokemon to cache'))
       cache.add(pokeinfo.id, pokeinfo.name, pokeinfo)
@@ -51,7 +50,7 @@ async function action (msg, args) {
   log(chalk.blue(`Got pokeinfo for ${chalk.white.bgBlue(pokeinfo.name)}`))
 
   try {
-    bot.createMessage(msg.channel.id,
+    msg._client.createMessage(msg.channel.id,
       {},
       {
         file: await renderImage(pokeinfo),
@@ -64,7 +63,7 @@ async function action (msg, args) {
   }
 }
 
-function register () {
+function register (bot) {
   bot.registerCommand('pokemon', action, info)
   bot.registerCommandAlias(info.alias, 'pokemon')
 }

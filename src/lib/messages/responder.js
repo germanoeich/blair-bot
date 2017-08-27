@@ -1,4 +1,4 @@
-import { bot } from '/lib/index.js'
+import { bot } from '/lib/'
 
 class FormatedString {
   constructor (str) {

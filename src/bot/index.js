@@ -1,22 +1,27 @@
 import Eris from 'eris'
+import chalk from 'chalk'
 import config from '/bot/config'
 import { registerCommands } from '/bot/commands'
-import init from '/lib'
+import { init } from '/lib'
 
-export async function connect () {
-  var bot = new Eris.CommandClient(config.token, { autoreconnect: false }, {
+async function connect () {
+  var _bot = new Eris.CommandClient(config.token, { autoreconnect: false }, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
     defaultHelpCommand: false
   })
 
-  bot.on('ready', () => {
-    init(bot)
-    registerCommands(bot)
+  _bot.on('ready', () => {
+    init(_bot)
+    registerCommands(_bot)
     console.log('Ready!')
   })
 
-  bot.on('error', console.error)
+  _bot.on('error', (msg) => console.error(chalk.red('ERROR:', msg)))
+  _bot.on('warn', (msg) => console.warn(chalk.yellow('WARN:', msg)))
+  _bot.on('debug', (msg) => console.log(chalk.green('DEBUG:', msg)))
 
-  return bot.connect()
+  return _bot.connect()
 }
+
+connect()

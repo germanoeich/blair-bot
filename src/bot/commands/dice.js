@@ -1,5 +1,3 @@
-import { bot } from '/lib/index.js'
-
 const info = {
   name: 'dice',
   args: '[Number Of Sides] [Number Of Dices]',
@@ -37,7 +35,7 @@ function randomInt (low, high) {
   return Math.floor(Math.random() * (high - low + 1) + low)
 }
 
-function register () {
+function register (bot) {
   bot.registerCommand(info.name, action, info)
 }
 

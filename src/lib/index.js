@@ -1,7 +1,5 @@
-let bot
+export let bot
 
-export default function init (botClient) {
-  bot = botClient
+export function init (_bot) {
+  bot = _bot
 }
-
-export { bot }

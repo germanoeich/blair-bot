@@ -4,15 +4,20 @@ import dice from './dice'
 import inspiro from './inspiro'
 import cat from './cat'
 import kick from './kick'
+import setrole from './setrole'
+
+import evalCmd from './eval'
 import help from './help'
 
-export function registerCommands () {
-  ping.register()
-  pokedex.register()
-  dice.register()
-  inspiro.register()
-  cat.register()
-  kick.register()
+export function registerCommands (bot) {
+  ping.register(bot)
+  pokedex.register(bot)
+  dice.register(bot)
+  inspiro.register(bot)
+  cat.register(bot)
+  kick.register(bot)
+  setrole.register(bot)
+  evalCmd.register(bot)
 
-  help.register([ping, pokedex, dice, inspiro, cat, kick])
+  help.register(bot, [ping, pokedex, dice, inspiro, cat, kick, setrole])
 }
