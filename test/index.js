@@ -1,8 +1,8 @@
 import chai, { expect } from 'chai'
 import { describe, it } from 'mocha'
-import { connect } from '/bot/index.js'
+import { connect } from './../../src/index.js'
 import dirtyChai from 'dirty-chai'
-import { bot } from '/lib/index.js'
+import { bot } from './../../src/lib/index.js'
 
 chai.use(dirtyChai)
 

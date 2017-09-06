@@ -1,6 +1,6 @@
-import Responder from '/lib/messages/responder'
-import DeleteQueue from '/lib/messages/deleteQueue'
-import integrity from '/lib/internal/integrity'
+import Responder from './../messages/responder'
+import DeleteQueue from './../messages/deleteQueue'
+import integrity from './../internal/integrity'
 
 class TargetSelector {
   async find (msg, arg) {

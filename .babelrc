@@ -4,9 +4,6 @@
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": true
-    }],
-    ["babel-root-slash-import", {
-      "rootPathSuffix": "src"
     }]
   ]
 }
