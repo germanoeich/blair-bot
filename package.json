@@ -6,7 +6,7 @@
     "bufferutil": "^3.0.1",
     "canvas": "^1.6.6",
     "chalk": "^2.0.1",
-    "eris": "^0.7.1",
+    "eris": "^0.7.2",
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",
     "mongodb": "^2.2.29",
