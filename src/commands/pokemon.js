@@ -1,9 +1,9 @@
 import Pokedex from 'pokedex-promise-v2'
-import { TwinKeyCache } from '/lib/cache'
-import Responder from '/lib/messages/responder'
+import { TwinKeyCache } from './../lib/cache'
+import Responder from './../lib/messages/responder'
 import chalk from 'chalk'
-import { renderImage } from '/bot/canvas/pokemon.js'
-import { reorderArgs } from '/bot/util/pokemon-names.js'
+import { renderImage } from './../canvas/pokemon.js'
+import { reorderArgs } from './../util/pokemon-names.js'
 const { log, error } = console
 
 const info = {

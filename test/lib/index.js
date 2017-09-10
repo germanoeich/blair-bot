@@ -1,6 +1,6 @@
 import chai, { expect } from 'chai'
 import { describe, it } from 'mocha'
-import { KeyCache, TwinKeyCache } from '/lib/cache'
+import { KeyCache, TwinKeyCache } from './../../src/lib/cache'
 import dirtyChai from 'dirty-chai'
 
 chai.use(dirtyChai)

@@ -1,8 +1,8 @@
 import Eris from 'eris'
 import chalk from 'chalk'
-import config from '/bot/config'
-import { registerCommands } from '/bot/commands'
-import { init } from '/lib'
+import config from './config'
+import { registerCommands } from './commands'
+import { init } from './lib'
 
 async function connect () {
   var _bot = new Eris.CommandClient(config.token, { autoreconnect: false }, {

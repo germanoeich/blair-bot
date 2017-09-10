@@ -1,5 +1,5 @@
 import util from 'util'
-import Responder from '/lib/messages/responder.js'
+import Responder from './../lib/messages/responder.js'
 
 const info = {
   name: 'eval',

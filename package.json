@@ -31,9 +31,9 @@
   },
   "scripts": {
     "lint": "standard",
-    "build": "babel src/bot -d build",
-    "start": "nodemon src/bot/index.js --exec babel-node",
-    "debug": "nodemon src/bot/index.js --exec babel-node --inspect=5858",
+    "build": "babel src -d build",
+    "start": "nodemon src/index.js --exec babel-node",
+    "debug": "nodemon src/index.js --exec babel-node --inspect=5858",
     "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/"
   },
   "pre-commit": [

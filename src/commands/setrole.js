@@ -1,5 +1,5 @@
-import TargetSelector from '/lib/util/target-selector'
-import Responder from '/lib/messages/responder.js'
+import TargetSelector from './../lib/util/target-selector'
+import Responder from './../lib/messages/responder.js'
 
 const info = {
   name: 'setrole',
