@@ -20,7 +20,10 @@ class TargetSelector {
       })
       .filter((member) => member)
 
+      const responder = new Responder(msg.channel)
+
       if (probableMatches.length === 0) {
+        responder.error('User not found').send()
         resolve(undefined)
         return
       }
@@ -29,8 +32,6 @@ class TargetSelector {
         resolve(probableMatches[0])
         return
       }
-
-      const responder = new Responder(msg.channel)
 
       if (!integrity.canPrompt(msg.author)) {
         await responder

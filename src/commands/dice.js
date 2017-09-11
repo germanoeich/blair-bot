@@ -1,7 +1,8 @@
 const info = {
   name: 'dice',
-  args: '[Number Of Sides] [Number Of Dices]',
-  description: 'Rolls a number. Args defaults to 6 sides and 1 dice'
+  usage: '[Number Of Sides] [Number Of Dices]',
+  description: 'Rolls a number',
+  fullDescription: 'Rolls a number. Args defaults to 6 sides and 1 dice'
 }
 
 function action (msg, args) {

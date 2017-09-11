@@ -6,11 +6,13 @@ import { renderImage } from './../canvas/pokemon.js'
 import { reorderArgs } from './../util/pokemon-names.js'
 const { log, error } = console
 
-const info = {
+const options = {
   name: 'pokemon',
-  args: '<Id | Name>',
+  usage: '<Id | Name>',
   description: 'generates an image with pokemon info',
-  alias: 'pokedex'
+  aliases: ['pokedex'],
+  // caseInsensitive: true,
+  argsRequired: true
 }
 
 const cache = new TwinKeyCache(12)
@@ -64,11 +66,10 @@ async function action (msg, args) {
 }
 
 function register (bot) {
-  bot.registerCommand('pokemon', action, info)
-  bot.registerCommandAlias(info.alias, 'pokemon')
+  bot.registerCommand(options.name, action, options)
 }
 
 export default {
-  info,
+  options,
   register
 }

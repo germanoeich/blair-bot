@@ -3,7 +3,9 @@ import chalk from 'chalk'
 
 const info = {
   name: 'cat',
-  description: 'fetch a random cat image'
+  description: 'fetch a random cat image',
+  fullDescription: 'fetch a random cat image',
+  caseInsensitive: true
 }
 
 async function action () {

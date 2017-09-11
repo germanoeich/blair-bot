@@ -12,7 +12,7 @@ describe('Health checks', () => {
       await connect()
     } catch (e) {
       console.error(e)
-      expect.fail(e, 'bot object', 'Bot failed to connect')
+      expect.fail(e, '', 'Bot failed to connect')
     }
   })
 
