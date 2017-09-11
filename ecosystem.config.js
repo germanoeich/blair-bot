@@ -25,7 +25,7 @@ module.exports = {
       host: 'bulbabot-vm.eastus.cloudapp.azure.com',
       ref: 'origin/master',
       repo: 'git@github.com:germanoeich/discord-bulbabot.git',
-      path: '/var/opt/node/production',
+      path: '/home/discord-bulbabot',
       'ssh_options': 'StrictHostKeyChecking=no',
       // This will be executed on the host after cloning the repository
       // eg: placing configurations in the shared dir etc
