@@ -27,6 +27,7 @@
     "dirty-chai": "^2.0.1",
     "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
+    "pm2": "^2.6.1",
     "standard": "^10.0.2"
   },
   "scripts": {
@@ -34,7 +35,8 @@
     "build": "babel src -d build",
     "start": "nodemon src/index.js --exec babel-node",
     "debug": "nodemon src/index.js --exec babel-node --inspect=5858",
-    "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/"
+    "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/",
+    "deploy": "pm2 deploy production"
   },
   "pre-commit": [
     "lint"
