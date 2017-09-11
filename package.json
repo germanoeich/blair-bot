@@ -6,6 +6,7 @@
     "bufferutil": "^3.0.1",
     "canvas": "^1.6.6",
     "chalk": "^2.0.1",
+    "cross-env": "^5.0.5",
     "eris": "^0.7.2",
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",
@@ -32,9 +33,9 @@
   },
   "scripts": {
     "lint": "standard",
-    "build": "babel src -d build",
-    "start": "nodemon src/index.js --exec babel-node",
-    "debug": "nodemon src/index.js --exec babel-node --inspect=5858",
+    "build": "./node_modules/.bin/babel src -d dist",
+    "start": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node",
+    "debug": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node --inspect=5858",
     "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/",
     "deploy": "pm2 deploy production"
   },

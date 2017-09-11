@@ -3,14 +3,14 @@ import Responder from './../lib/messages/responder.js'
 
 const info = {
   name: 'eval',
-  description: 'eval'
+  argsRequired: true,
+  requirements: {
+    userIDs: ['227115752396685313']
+  },
+  permissionMessage: ''
 }
 
 async function action (msg, args) {
-  if (msg.member.id !== '227115752396685313') {
-    return
-  }
-
   const responder = new Responder(msg.channel)
 
   var _msg = msg // eslint-disable-line

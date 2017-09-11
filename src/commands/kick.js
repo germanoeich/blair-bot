@@ -11,34 +11,30 @@ async function action (msg, args) {
   const responder = new Responder(msg.channel)
 
   if (!msg.member.permission.has('kickMembers')) {
-    responder.error('You need the "(kickMembers)" permission for that.')
+    responder.error('You need the "(kickMembers)" permission for that.').send()
     return
   }
 
   const targetSelector = new TargetSelector()
 
   if (args.length === 0) {
-    return 'Specify an user'
+    responder.error('Specify an user').send()
+    return
   }
 
   let member = await targetSelector.find(msg, args[0])
   const reason = args[1] || ''
-  // Prompt cancelled
-  if (member === false) {
+  if (!member) {
     return
   }
 
-  if (!member) {
-    responder.error('User not found')
-  } else {
-    try {
-      await member.kick(reason)
-      responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`)
-    } catch (e) {
-      const error = JSON.parse(e.response)
+  try {
+    await member.kick(reason)
+    responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`)
+  } catch (e) {
+    const error = JSON.parse(e.response)
 
-      responder.error(`Failed with error: ${error.code} - ${error.message} `)
-    }
+    responder.error(`Failed with error: ${error.code} - ${error.message} `)
   }
 
   responder.send()
