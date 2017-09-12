@@ -21,19 +21,15 @@ module.exports = {
    */
   deploy: {
     production: {
+      key: '~/.ssh/bot-deploy',
+      // TODO: Create a deploy user
       user: 'gin',
       host: 'bulbabot-vm.eastus.cloudapp.azure.com',
       ref: 'origin/master',
       repo: 'git@github.com:germanoeich/discord-bulbabot.git',
-      path: '/home/gin/discord-bulbabot',
+      path: '/var/opt/node/bulbabot',
       'ssh_options': 'StrictHostKeyChecking=no',
-      // This will be executed on the host after cloning the repository
-      // eg: placing configurations in the shared dir etc
-      'post-setup': 'sudo cp /srv/bulbabot/cfg/secrets.js src/config/secrets.js',
-      // Commands to execute locally (on the same machine you deploy things)
-      // Can be multiple commands separated by the character ';'
-      'pre-deploy-local': 'echo "This is a local executed command"',
-      // Commands to be executed on the server after the repo has been cloned
+      'post-setup': 'cp ./../cfg/config.js src/config/config.js',
       'post-deploy': 'yarn && yarn build && pm2 startOrRestart ecosystem.config.js --env production'
     }
   }
