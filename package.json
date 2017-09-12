@@ -23,7 +23,6 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "babel-register": "^6.26.0",
-    "babel-root-slash-import": "^1.1.0",
     "chai": "^4.1.1",
     "dirty-chai": "^2.0.1",
     "mocha": "^3.5.0",
@@ -33,7 +32,7 @@
   },
   "scripts": {
     "lint": "standard",
-    "build": "./node_modules/.bin/babel src -d dist",
+    "build": "babel src -d dist",
     "start": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node",
     "debug": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node --inspect=5858",
     "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/",
