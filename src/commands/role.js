@@ -38,7 +38,6 @@ async function action (msg, args) {
   delete args[1]
   const roleName = args.join(' ').trim()
 
-  console.log(roleName)
   // TODO: Move this to target selection
   const role = msg.channel.guild.roles.find((role) => role.name === roleName)
 
@@ -48,8 +47,6 @@ async function action (msg, args) {
   }
 
   const highestRole = getMemberHighestRole(msg.member, msg.channel.guild)
-  console.log(highestRole.position)
-  console.log(role)
   if (highestRole && role.position >= highestRole.position) {
     await responder.error('You must be in a higher role than the one you are trying to assign / remove.').send()
     return
@@ -72,17 +69,15 @@ async function action (msg, args) {
   try {
     if (op === 'add') {
       await member.addRole(role.id)
-      responder.success(`User ${member.user.username}#${member.user.discriminator} was assigned to role ${role.name}`)
+      responder.success(`User ${member.user.username}#${member.user.discriminator} was assigned to role ${role.name}`).send()
     } else if (op === 'remove') {
       await member.removeRole(role.id)
-      responder.success(`User ${member.user.username}#${member.user.discriminator} was removed from role ${role.name}`)
+      responder.success(`User ${member.user.username}#${member.user.discriminator} was removed from role ${role.name}`).send()
     }
   } catch (e) {
     const error = JSON.parse(e.response)
     responder.error(`Failed with error: ${error.code} - ${error.message} `)
   }
-
-  responder.send()
 }
 
 function register (bot) {
