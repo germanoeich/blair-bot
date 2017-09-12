@@ -5,7 +5,7 @@ module.exports = {
    */
   apps: [
     {
-      name: 'BulbaBot',
+      name: 'bulbabot',
       script: 'build/index.js',
       env_production: {
         NODE_ENV: 'production'

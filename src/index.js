@@ -1,6 +1,6 @@
 import Eris from 'eris'
 import chalk from 'chalk'
-import config from './config'
+import config from './config/config.js'
 import { registerCommands } from './commands'
 import { init } from './lib'
 
