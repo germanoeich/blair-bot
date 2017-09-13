@@ -11,6 +11,7 @@ module.exports = {
         NODE_ENV: 'production'
       },
       wait_ready: true,
+      listen_timeout: 4000,
       kill_timeout: 4000
     }
   ],
