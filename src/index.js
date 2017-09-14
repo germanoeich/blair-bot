@@ -4,8 +4,10 @@ import config from './config/config.js'
 import cmdConfig from './config/command-config.js'
 import { registerCommands } from './commands'
 import { init } from './lib'
+import redis from './data/redis.js'
 
 let _bot
+
 export async function connect () {
   _bot = new Eris.CommandClient(config.token, { autoreconnect: false }, {
     prefix: ['@mention ', 'b!'],
@@ -14,9 +16,10 @@ export async function connect () {
     defaultCommandOptions: cmdConfig.defaultCommandOptions
   })
 
-  _bot.on('ready', () => {
+  _bot.on('ready', async () => {
     init(_bot)
     registerCommands(_bot)
+    await applyGuildPrefixes()
     if (process.send) {
       process.send('ready')
     }
@@ -59,8 +62,27 @@ async function disconnect () {
   }
 }
 
+async function applyGuildPrefixes () {
+  redis.client = redis.connect()
+
+  const keys = await redis.client.keys(`guild_prefix:*`)
+  const values = await redis.client.mget(keys)
+
+  var substrLength = 'guild_prefix:'.length
+
+  for (var i = 0; i < keys.length; i++) {
+    _bot.registerGuildPrefix(keys[i].substring(substrLength), values[i])
+  }
+
+  redis.client.disconnect()
+}
+
 // STARTUP
 
 if (process.env.NODE_ENV !== 'test') {
-  connect()
+  try {
+    connect()
+  } catch (e) {
+    console.error(chalk.red(e))
+  }
 }

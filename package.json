@@ -10,6 +10,7 @@
     "eris": "^0.7.2",
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",
+    "ioredis": "^3.1.4",
     "mongodb": "^2.2.29",
     "node-fetch": "^1.7.1",
     "node-opus": "^0.2.6",
