@@ -26,7 +26,7 @@ async function action (msg, args) {
     const newPrefix = args[0]
 
     const guild = msg.channel.guild
-    _bot.registerGuildPrefix(guild.id, [ '@mention', newPrefix ])
+    _bot.registerGuildPrefix(guild.id, [ '@mention ', newPrefix ])
 
     await _redisClient.set(`guild_prefix:${guild.id}`, newPrefix)
 
