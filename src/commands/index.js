@@ -7,6 +7,7 @@ import kick from './kick'
 import role from './role'
 import evalCmd from './eval'
 import stats from './stats'
+import prefix from './prefix'
 // import help from './help'
 
 export function registerCommands (bot) {
@@ -19,6 +20,7 @@ export function registerCommands (bot) {
   role.register(bot)
   evalCmd.register(bot)
   stats.register(bot)
+  prefix.register(bot)
 
   // help.register(bot, [ping, pokedex, dice, inspiro, cat, kick, role])
 }
