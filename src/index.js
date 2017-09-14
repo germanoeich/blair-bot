@@ -7,7 +7,7 @@ import { init } from './lib'
 
 let _bot
 export async function connect () {
-  _bot = new Eris.CommandClient(config.token, { autoreconnect: false }, {
+  _bot = new Eris.CommandClient(config.token, {}, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
     // defaultHelpCommand: false,
