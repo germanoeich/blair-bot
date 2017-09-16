@@ -1,5 +1,5 @@
 {
-  "name": "discord-bulbabot",
+  "name": "blair-bot",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -39,8 +39,8 @@
     "debug": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node --inspect=5858",
     "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/",
     "deploy": "pm2 deploy production",
-    "pm2_start": "pm2 start dist/index.js --name bulbabot",
-    "pm2_stop": "pm2 delete bulbabot"
+    "pm2_start": "pm2 start dist/index.js --name blair",
+    "pm2_stop": "pm2 delete blair"
   },
   "pre-commit": [
     "lint"
