@@ -24,7 +24,7 @@ export class EvalCmd extends BaseCommand {
     var _json = util.inspect // eslint-disable-line no-unused-vars
     let result = eval(args.join(' ')) // eslint-disable-line no-eval
 
-    if (result) {
+    if (typeof result.substr === 'string') {
       result = result.substr(0, 1950)
     }
 
