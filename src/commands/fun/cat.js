@@ -6,6 +6,7 @@ export default class CatCmd extends FetchCommand {
       name: 'cat',
       description: 'fetch a random cat image',
       fullDescription: 'fetch a random cat image',
+      aliases: ['meow'],
       fetchInfo: {
         url: 'http://random.cat/meow',
         resolveReturn: async (response) => (await response.json()).file
