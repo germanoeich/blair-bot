@@ -9,7 +9,7 @@ import redis from './data/redis.js'
 let _bot
 
 export async function connect () {
-  _bot = new Eris.CommandClient(config.token, { autoreconnect: false }, {
+  _bot = new Eris.CommandClient(config.token, {}, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
     // defaultHelpCommand: false,
@@ -23,6 +23,10 @@ export async function connect () {
     if (process.send) {
       process.send('ready')
     }
+
+    // Purple looks so nice with the avatar...
+    _bot.editStatus('online', { name: 'b!help', type: 1, url: 'https://www.twitch.tv/blairbot-nostream' })
+
     console.log('Ready!')
   })
 

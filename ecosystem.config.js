@@ -5,7 +5,7 @@ module.exports = {
    */
   apps: [
     {
-      name: 'bulbabot',
+      name: 'blair',
       script: 'dist/index.js',
       env_production: {
         NODE_ENV: 'production'
@@ -27,8 +27,8 @@ module.exports = {
       user: 'gin',
       host: 'bulbabot-vm.eastus.cloudapp.azure.com',
       ref: 'origin/master',
-      repo: 'git@github.com:germanoeich/discord-bulbabot.git',
-      path: '/var/opt/node/bulbabot',
+      repo: 'git@github.com:germanoeich/blair-bot.git',
+      path: '/var/opt/node/blair',
       'ssh_options': 'StrictHostKeyChecking=no',
       'post-setup': 'cp ./../cfg/config.js src/config/config.js',
       'post-deploy': 'yarn && yarn build && pm2 startOrRestart ecosystem.config.js --env production'

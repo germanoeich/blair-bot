@@ -1,24 +1,14 @@
-import ping from './ping'
-import pokedex from './pokemon'
-import dice from './dice'
-import inspiro from './inspiro'
-import cat from './cat'
-import kick from './kick'
-import role from './role'
-import evalCmd from './eval'
-import prefix from './prefix'
+import exclusive from './exclusive'
+import fun from './fun'
+import misc from './misc'
+import moderation from './moderation'
 // import help from './help'
 
 export function registerCommands (bot) {
-  ping.register(bot)
-  pokedex.register(bot)
-  dice.register(bot)
-  inspiro.register(bot)
-  cat.register(bot)
-  kick.register(bot)
-  role.register(bot)
-  evalCmd.register(bot)
-  prefix.register(bot)
+  exclusive.register(bot)
+  fun.register(bot)
+  misc.register(bot)
+  moderation.register(bot)
 
   // help.register(bot, [ping, pokedex, dice, inspiro, cat, kick, role])
 }
