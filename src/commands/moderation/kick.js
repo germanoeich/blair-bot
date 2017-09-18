@@ -1,4 +1,4 @@
-import TargetSelector from './../lib/util/target-selector'
+import TargetSelector from './../../lib/util/target-selector'
 import Responder from './../../lib/messages/responder'
 
 const info = {
