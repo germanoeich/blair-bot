@@ -1,5 +1,5 @@
-import redis from './../data/redis.js'
-import Responder from './../lib/messages/responder.js'
+import redis from './../../data/redis'
+import Responder from './../../lib/messages/responder'
 
 const info = {
   name: 'prefix',

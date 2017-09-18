@@ -1,6 +1,6 @@
 import pm2 from 'pm2'
-import Responder from './../lib/messages/responder.js'
-import { apps } from './../../ecosystem.config.js'
+import Responder from './../../lib/messages/responder'
+import { apps } from './../../../ecosystem.config'
 import moment from 'moment'
 require('moment-duration-format')
 

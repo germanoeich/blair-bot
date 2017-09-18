@@ -93,20 +93,27 @@ class Responder extends FormatedString {
   }
 
   async send () {
-    var ret = await bot.createMessage(this.channel.id,
-    { content: this.str, embed: this._embed },
-    this._file)
+    try {
+      var ret = await bot.createMessage(this.channel.id,
+      { content: this.str, embed: this._embed },
+      this._file)
 
-    if (this._ttl > 0) {
-      setTimeout(() => ret.delete(), this._ttl)
+      if (this._ttl > 0) {
+        setTimeout(() => ret.delete(), this._ttl)
+      }
+
+      this.str = ''
+      this._embed = undefined
+      this._file = undefined
+      this._ttl = 0
+
+      return ret
+    } catch (e) {
+      const error = JSON.parse(e.response)
+      if (error.code !== 50013) {
+        console.error(e)
+      }
     }
-
-    this.str = ''
-    this._embed = undefined
-    this._file = undefined
-    this._ttl = 0
-
-    return ret
   }
 
   async waitSingle (userMsg, timeout = 60) {

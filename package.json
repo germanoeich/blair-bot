@@ -35,8 +35,8 @@
   "scripts": {
     "lint": "standard",
     "build": "babel src -d dist",
+    "build_local": "babel src -d dist --source-maps",
     "start": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node",
-    "debug": "cross-env NODE_ENV=dev nodemon src/index.js --exec babel-node --inspect=5858",
     "test": "mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/",
     "deploy": "pm2 deploy production",
     "pm2_start": "pm2 start dist/index.js --name blair",

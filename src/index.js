@@ -23,6 +23,10 @@ export async function connect () {
     if (process.send) {
       process.send('ready')
     }
+
+    // Purple looks so nice with the avatar...
+    _bot.editStatus('online', { name: 'b!help', type: 1, url: 'https://www.twitch.tv/blairbot-nostream' })
+
     console.log('Ready!')
   })
 
