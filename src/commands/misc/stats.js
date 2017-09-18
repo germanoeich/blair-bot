@@ -32,7 +32,7 @@ export default class StatsCmd extends BaseCommand {
                           .format('d[d] h[h] mm[m] ss[s]', { trim: false })
 
       await responder.embed({
-        'color': 3731992,
+        'color': parseInt('815FC0', 16),
         'footer': {
           'text': '♥'
         },
