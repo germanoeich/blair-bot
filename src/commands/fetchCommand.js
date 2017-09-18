@@ -9,9 +9,9 @@ export default class FetchCommand extends BaseCommand {
     this.fetch = this.fetch.bind(this)
   }
 
-  async fetch (msg, args) {
-    var response = await fetch(this.url)
-    return this.resolveReturn(response, msg, args)
+  async fetch (msg, args, url = this.url, resolveReturn = this.resolveReturn) {
+    var response = await fetch(url)
+    return resolveReturn(response, msg, args)
   }
 
   async action (msg, args) {
