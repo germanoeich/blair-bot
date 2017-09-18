@@ -1,9 +1,13 @@
-import ping from './ping'
-import stats from './stats'
+import PingCmd from './ping'
+import StatsCmd from './stats'
+
+const cmds = []
 
 function register (bot) {
-  ping.register(bot)
-  stats.register(bot)
+  cmds.push(new PingCmd(bot))
+  cmds.push(new StatsCmd(bot))
+
+  cmds.forEach((cmd) => cmd.register())
 }
 
 export default {

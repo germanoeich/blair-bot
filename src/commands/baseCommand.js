@@ -2,6 +2,7 @@ export default class BaseCommand {
   constructor (info, commandClient) {
     this.info = info
     this.bot = commandClient
+    this.action = this.action.bind(this)
   }
 
   action () {

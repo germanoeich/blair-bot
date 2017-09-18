@@ -1,13 +1,17 @@
-import pokedex from './pokemon'
-import dice from './dice'
-import inspiro from './inspiro'
-import cat from './cat'
+import PokemonCmd from './pokemon'
+import DiceCmd from './dice'
+import InspiroCmd from './inspiro'
+import CatCmd from './cat'
+
+const cmds = []
 
 function register (bot) {
-  pokedex.register(bot)
-  dice.register(bot)
-  inspiro.register(bot)
-  cat.register(bot)
+  cmds.push(new PokemonCmd(bot))
+  cmds.push(new DiceCmd(bot))
+  cmds.push(new InspiroCmd(bot))
+  cmds.push(new CatCmd(bot))
+
+  cmds.forEach((cmd) => cmd.register())
 }
 
 export default {

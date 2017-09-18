@@ -75,7 +75,7 @@ async function applyGuildPrefixes () {
   var substrLength = 'guild_prefix:'.length
 
   for (var i = 0; i < keys.length; i++) {
-    _bot.registerGuildPrefix(keys[i].substring(substrLength), values[i])
+    _bot.registerGuildPrefix(keys[i].substring(substrLength), ['@mention ', values[i]])
   }
 
   redis.client.disconnect()

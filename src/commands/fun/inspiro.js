@@ -1,29 +1,17 @@
-import fetch from 'node-fetch'
-import chalk from 'chalk'
+import FetchCommand from './../fetchCommand'
 
-const info = {
-  name: 'inspiro',
-  description: 'fetch a inspirobot image',
-  alias: 'inspirobot'
-}
-
-async function action () {
-  try {
-    var response = await fetch('http://inspirobot.me/api?generate=true')
-
-    return await response.text()
-  } catch (e) {
-    console.error('ERR:', chalk.red(e))
-    return `Shit happened when it shouldn't have. Most likely InspiroBot is having problems.`
+export default class InspiroCmd extends FetchCommand {
+  constructor (bot) {
+    const info = {
+      name: 'inspiro',
+      description: 'fetch a inspirobot image',
+      fullDescription: 'fetch a inspirobot image',
+      aliases: ['inspirobot'],
+      fetchInfo: {
+        url: 'http://inspirobot.me/api?generate=true',
+        resolveReturn: (response) => response.text()
+      }
+    }
+    super(info, bot)
   }
-}
-
-function register (bot) {
-  bot.registerCommand(info.name, action, info)
-  bot.registerCommandAlias(info.alias, info.name)
-}
-
-export default {
-  info,
-  register
 }

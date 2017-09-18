@@ -1,28 +1,16 @@
-import fetch from 'node-fetch'
-import chalk from 'chalk'
+import FetchCommand from './../fetchCommand'
 
-const info = {
-  name: 'cat',
-  description: 'fetch a random cat image',
-  fullDescription: 'fetch a random cat image',
-  caseInsensitive: true
-}
-
-async function action () {
-  try {
-    var response = await fetch('http://random.cat/meow')
-    return (await response.json()).file
-  } catch (e) {
-    console.error('ERR:', chalk.red(e))
-    return `Shit happened when it shouldn't have. Most likely random.cat is having problems.`
+export default class CatCmd extends FetchCommand {
+  constructor (bot) {
+    const info = {
+      name: 'cat',
+      description: 'fetch a random cat image',
+      fullDescription: 'fetch a random cat image',
+      fetchInfo: {
+        url: 'http://random.cat/meow',
+        resolveReturn: async (response) => (await response.json()).file
+      }
+    }
+    super(info, bot)
   }
-}
-
-function register (bot) {
-  bot.registerCommand(info.name, action, info)
-}
-
-export default {
-  info,
-  register
 }

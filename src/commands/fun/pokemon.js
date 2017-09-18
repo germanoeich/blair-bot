@@ -4,72 +4,63 @@ import Responder from './../../lib/messages/responder'
 import chalk from 'chalk'
 import { renderImage } from './../../canvas/pokemon'
 import { reorderArgs } from './../../util/pokemon-names'
-const { log, error } = console
+import BaseCommand from './../baseCommand'
 
-const options = {
-  name: 'pokemon',
-  usage: '<Id | Name>',
-  description: 'generates an image with pokemon info',
-  aliases: ['pokedex'],
-  // caseInsensitive: true,
-  argsRequired: true
-}
+export default class PokemonCmd extends BaseCommand {
+  constructor (bot) {
+    const info = {
+      name: 'pokemon',
+      usage: '<Id | Name>',
+      description: 'generates an image with pokemon info',
+      fullDescription: 'generates an image with pokemon info',
+      aliases: ['pokedex'],
+      argsRequired: true
+    }
+    super(info, bot)
 
-const cache = new TwinKeyCache(12)
-
-async function action (msg, args) {
-  const responder = new Responder(msg.channel)
-
-  if (args.length === 0) {
-    responder.bold('Please specify a pokemon ID or Name').send()
+    this.cache = new TwinKeyCache(12)
   }
 
-  args = reorderArgs(args)
-  const idOrName = args.join('-').toLowerCase()
+  async action (msg, args) {
+    const responder = new Responder(msg.channel)
 
-  const P = new Pokedex()
-  let pokeinfo
+    if (args.length === 0) {
+      responder.bold('Please specify a pokemon ID or Name').send()
+    }
 
-  log(chalk.cyan(`Pokedex received with args ${chalk.white.bgCyan(idOrName)}`))
+    args = reorderArgs(args)
+    const idOrName = args.join('-').toLowerCase()
 
-  pokeinfo = cache.retrieve(idOrName)
-  if (!pokeinfo) {
-    try {
-      msg._client.sendChannelTyping(msg.channel.id)
-      pokeinfo = await P.getPokemonByName(idOrName)
-      log(chalk.blue('Adding pokemon to cache'))
-      cache.add(pokeinfo.id, pokeinfo.name, pokeinfo)
-    } catch (e) {
-      if (e.statusCode === 404) {
-        return 'That pokemon does not exist, try something else'
+    const P = new Pokedex()
+    let pokeinfo
+
+    pokeinfo = this.cache.retrieve(idOrName)
+    if (!pokeinfo) {
+      try {
+        msg._client.sendChannelTyping(msg.channel.id)
+        pokeinfo = await P.getPokemonByName(idOrName)
+        this.cache.add(pokeinfo.id, pokeinfo.name, pokeinfo)
+      } catch (e) {
+        if (e.statusCode === 404) {
+          return 'That pokemon does not exist, try something else'
+        }
+
+        console.error('ERR:', chalk.red(e))
+        return `Shit happened when it shouldn't have. Most likely PokeAPI is having problems.`
       }
+    }
 
-      error('ERR:', chalk.red(e))
-      return `Shit happened when it shouldn't have. Most likely PokeAPI is having problems.`
+    try {
+      msg._client.createMessage(msg.channel.id,
+        {},
+        {
+          file: await renderImage(pokeinfo),
+          name: `pokedex-${pokeinfo.name}.png`
+        }
+      )
+    } catch (e) {
+      console.error('ERR:', chalk.red(e))
+      return `Shit happened when it shouldn't have. Most likely I fucked up (Canvas drawing err).`
     }
   }
-
-  log(chalk.blue(`Got pokeinfo for ${chalk.white.bgBlue(pokeinfo.name)}`))
-
-  try {
-    msg._client.createMessage(msg.channel.id,
-      {},
-      {
-        file: await renderImage(pokeinfo),
-        name: `pokedex-${pokeinfo.name}.png`
-      }
-    )
-  } catch (e) {
-    error('ERR:', chalk.red(e))
-    return `Shit happened when it shouldn't have. Most likely I fucked up (Canvas drawing err).`
-  }
-}
-
-function register (bot) {
-  bot.registerCommand(options.name, action, options)
-}
-
-export default {
-  options,
-  register
 }

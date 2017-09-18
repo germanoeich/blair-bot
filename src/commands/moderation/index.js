@@ -1,9 +1,9 @@
 import kick from './kick'
 import role from './role'
-import prefix from './prefix'
+import PrefixCmd from './prefix'
 
 function register (bot) {
-  prefix.register(bot)
+  (new PrefixCmd(bot)).register()
   kick.register(bot)
   role.register(bot)
 }

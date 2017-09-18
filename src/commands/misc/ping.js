@@ -1,22 +1,18 @@
-const info = {
-  name: 'ping',
-  description: 'pong!'
-}
+import BaseCommand from './../baseCommand'
 
-let _bot
+export default class PingCmd extends BaseCommand {
+  constructor (bot) {
+    const info = {
+      name: 'ping',
+      description: 'Pong!',
+      fullDescription: 'Used to check bot latency and if it\'s online'
+    }
+    super(info, bot)
+  }
 
-function action (msg) {
-  _bot.createMessage(msg.channel.id, ':ping_pong: Pong!').then(function (botMsg) {
-    botMsg.edit(`${botMsg.content} - **${botMsg.timestamp - msg.timestamp} ms** `)
-  })
-}
-
-function register (bot) {
-  _bot = bot
-  bot.registerCommand(info.name, action, info)
-}
-
-export default {
-  info,
-  register
+  action (msg, args) {
+    this.bot.createMessage(msg.channel.id, ':ping_pong: Pong!').then(function (botMsg) {
+      botMsg.edit(`${botMsg.content} - **${botMsg.timestamp - msg.timestamp} ms** `)
+    })
+  }
 }
