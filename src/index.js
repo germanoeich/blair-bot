@@ -5,6 +5,7 @@ import cmdConfig from './config/command-config.js'
 import { registerCommands } from './commands'
 import { init } from './lib'
 import redis from './data/redis.js'
+import metrics from './metrics'
 
 let _bot
 
@@ -26,7 +27,8 @@ export async function connect () {
 
     // Purple looks so nice with the avatar...
     _bot.editStatus('online', { name: 'b!help', type: 1, url: 'https://www.twitch.tv/blairbot-nostream' })
-
+    metrics.expose()
+    metrics.registerEvents(_bot)
     console.log('Ready!')
   })
 
