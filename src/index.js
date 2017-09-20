@@ -70,6 +70,12 @@ async function applyGuildPrefixes () {
   redis.client = redis.connect()
 
   const keys = await redis.client.keys(`guild_prefix:*`)
+
+  if (keys.length === 0) {
+    redis.client.disconnect()
+    return
+  }
+
   const values = await redis.client.mget(keys)
 
   var substrLength = 'guild_prefix:'.length
