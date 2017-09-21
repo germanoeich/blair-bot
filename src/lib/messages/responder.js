@@ -83,7 +83,6 @@ class Responder extends FormatedString {
 
   embed (embedObj) {
     this._embed = embedObj
-    console.log(this._embed)
     return this
   }
 
