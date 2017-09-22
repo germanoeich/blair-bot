@@ -24,6 +24,7 @@ export default class TextCmd extends BaseCommand {
   }
 }
 
+// TODO: Handle bot permissions
 class BlockCmd extends BaseCommand {
   constructor (bot) {
     const info = {
@@ -43,27 +44,52 @@ class BlockCmd extends BaseCommand {
     super(info, bot)
 
     this.handleMessageCreate = this.handleMessageCreate.bind(this)
+    this.handleMessageUpdate = this.handleMessageUpdate.bind(this)
+    this.matchMessage = this.matchMessage.bind(this)
+
     bot.on('messageCreate', this.handleMessageCreate)
+    bot.on('messageUpdate', this.handleMessageUpdate)
 
     this.redisClient = redis.connect()
   }
 
-  async handleMessageCreate (msg) {
+  async matchMessage (msg) {
     const guildId = msg.channel.guild.id
     const channelId = msg.channel.id
     const keyIdentifier = `text:block:${guildId}:${channelId}`
 
     let keys = await this.redisClient.smembers(keyIdentifier)
-
     if (keys.length > 0) {
-      keys.forEach(k => {
+      for (let k of keys) {
         if (matcher.isMatch(msg.content, k)) {
           const responder = new Responder(msg.channel)
+          // TODO: Move this to own class
           msg.delete(`Triggered by [${k}] block rule`)
+          .catch((e) => {
+            const error = JSON.parse(e.response)
+            if (error.code !== 10008) {
+              console.error(e)
+            }
+          })
           responder.error(`${msg.author.mention}, your message was removed based on a block rule.`).ttl(10).send()
+          break
         }
-      })
+      }
     }
+  }
+
+  async handleMessageUpdate (msg, oldMsg) {
+    if (!oldMsg || msg.author.bot) {
+      return
+    }
+    this.matchMessage(msg)
+  }
+
+  async handleMessageCreate (msg) {
+    if (!!msg.command || msg.author.bot) {
+      return
+    }
+    this.matchMessage(msg)
   }
 
   async action (msg, args) {
