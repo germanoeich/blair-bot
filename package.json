@@ -19,6 +19,7 @@
     "pokedex-promise-v2": "^3.0.3",
     "pre-commit": "^1.2.2",
     "prom-client": "^10.1.0",
+    "raven": "^2.1.2",
     "sodium-native": "^1.10.1",
     "uws": "^8.14.0"
   },

@@ -17,7 +17,6 @@ function expose () {
 
   const collectDefaultMetrics = Prometheus.collectDefaultMetrics
 
-  // Probe every 5th second.
   collectDefaultMetrics({ timeout: 5000 })
 }
 

@@ -6,10 +6,21 @@ import { registerCommands } from './commands'
 import { init } from './lib'
 import redis from './data/redis.js'
 import metrics from './metrics'
-
+import Raven from 'raven'
 let _bot
 
 export async function connect () {
+  Raven.config(config.sentry.dsn, {
+    environment: process.env.NODE_ENV
+  }).install(function (err, sendErr, eventId) {
+    if (!sendErr) {
+      console.log('Successfully sent fatal error with eventId ' + eventId + ' to Sentry:')
+    }
+    console.error(err.stack)
+
+    // process.exit(1)
+  })
+
   _bot = new Eris.CommandClient(config.token, {}, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
@@ -32,7 +43,10 @@ export async function connect () {
     console.log('Ready!')
   })
 
-  _bot.on('error', (msg) => console.error(chalk.red('ERROR:', msg)))
+  _bot.on('error', (e) => {
+    console.error(chalk.red('ERROR:', e))
+    Raven.captureException(e)
+  })
   _bot.on('warn', (msg) => console.warn(chalk.yellow('WARN:', msg)))
 
   if (process.env.NODE_ENV === 'dev') {
