@@ -1,9 +1,15 @@
 import kick from './kick'
 import role from './role'
 import PrefixCmd from './prefix'
+import TextCmd from './text'
+
+const cmds = []
 
 function register (bot) {
-  (new PrefixCmd(bot)).register()
+  cmds.push(new PrefixCmd(bot))
+  cmds.push(new TextCmd(bot))
+
+  cmds.forEach((cmd) => cmd.register())
   kick.register(bot)
   role.register(bot)
 }

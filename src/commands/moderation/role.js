@@ -18,7 +18,7 @@ const info = {
 
 const addInfo = {
   name: 'add',
-  usage: 'add <user> <role>',
+  usage: '<user> <role>',
   argsRequired: true,
   description: 'Add user roles.',
   fullDescription: 'Add user roles.',
@@ -33,7 +33,7 @@ const addInfo = {
 
 const removeInfo = {
   name: 'remove',
-  usage: 'remove <user> <role>',
+  usage: '<user> <role>',
   argsRequired: true,
   description: 'Remove user roles.',
   fullDescription: 'Remove user roles.',

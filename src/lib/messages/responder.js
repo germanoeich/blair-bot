@@ -83,7 +83,6 @@ class Responder extends FormatedString {
 
   embed (embedObj) {
     this._embed = embedObj
-    console.log(this._embed)
     return this
   }
 
@@ -99,7 +98,16 @@ class Responder extends FormatedString {
       this._file)
 
       if (this._ttl > 0) {
-        setTimeout(() => ret.delete(), this._ttl)
+        setTimeout(async () => {
+          try {
+            await ret.delete()
+          } catch (e) {
+            const error = JSON.parse(e.response)
+            if (error.code !== 10008) {
+              console.error(e)
+            }
+          }
+        }, this._ttl)
       }
 
       this.str = ''
@@ -110,6 +118,7 @@ class Responder extends FormatedString {
       return ret
     } catch (e) {
       const error = JSON.parse(e.response)
+      // Missing perms
       if (error.code !== 50013) {
         console.error(e)
       }

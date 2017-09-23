@@ -25,7 +25,7 @@ module.exports = {
       key: '~/.ssh/bot-deploy',
       // TODO: Create a deploy user
       user: 'gin',
-      host: 'bulbabot-vm.eastus.cloudapp.azure.com',
+      host: 'blair-vm.eastus.cloudapp.azure.com',
       ref: 'origin/master',
       repo: 'git@github.com:germanoeich/blair-bot.git',
       path: '/var/opt/node/blair',

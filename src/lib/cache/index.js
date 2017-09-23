@@ -16,11 +16,15 @@ class KeyCache {
     return value
   }
 
+  push (key, value) {
+    this.cachedValues[key].push(value)
+  }
+
   retrieve (key) {
     if (this.isCached(key)) {
       var cacheEntry = this.cachedValues[key]
 
-      if ((cacheEntry.timeAdded.getTime() + (this.ttl * 60 * 60 * 1000)) > new Date().getTime()) {
+      if (this.ttl > 0 && (cacheEntry.timeAdded.getTime() + (this.ttl * 60 * 60 * 1000)) > new Date().getTime()) {
         return cacheEntry.value
       }
     }
@@ -47,7 +51,7 @@ class TwinKeyCache {
     if (cacheId) {
       var cacheEntry = this.cachedValues[cacheId]
 
-      if ((cacheEntry.timeAdded.getTime() + (this.ttl * 60 * 60 * 1000)) > new Date().getTime()) {
+      if (this.ttl > 0 && (cacheEntry.timeAdded.getTime() + (this.ttl * 60 * 60 * 1000)) > new Date().getTime()) {
         return cacheEntry.pokeInfo
       }
     }
