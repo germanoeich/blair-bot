@@ -21,11 +21,15 @@ export async function connect () {
     // process.exit(1)
   })
 
-  _bot = new Eris.CommandClient(config.token, {}, {
+  _bot = new Eris.CommandClient(config.token, {
+    getAllUsers: true,
+    maxShards: 2
+  }, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
     // defaultHelpCommand: false,
-    defaultCommandOptions: cmdConfig.defaultCommandOptions
+    defaultCommandOptions: cmdConfig.defaultCommandOptions,
+    ignoreBots: process.env.NODE_ENV !== 'test'
   })
 
   _bot.on('ready', async () => {
@@ -37,9 +41,11 @@ export async function connect () {
     }
 
     // Purple looks so nice with the avatar...
-    _bot.editStatus('online', { name: 'b!help', type: 1, url: 'https://www.twitch.tv/blairbot-nostream' })
+    _bot.editStatus('online', { name: 'b!help', type: 1, url: 'https://www.twitch.tv/notgin' })
+
     metrics.expose()
     metrics.registerEvents(_bot)
+
     console.log('Ready!')
   })
 
@@ -74,7 +80,7 @@ async function disconnect () {
 
   try {
     await _bot.disconnect({ reconnect: false })
-    console.info(chalk.green('INFO: Bot killed gracefully by SIGINT'))
+    console.info(chalk.green('INFO: Bot killed gracefully'))
     process.exit(0)
   } catch (e) {
     console.error(e)
