@@ -10,10 +10,10 @@ class FormatedString {
       { name: 'inlineCode', symbol1: '`', symbol2: '`', mode: 'surround' },
       { name: 'code', symbol1: '```{{args}}\n', symbol2: '```', mode: 'args-surround' },
       { name: 'bold', symbol1: '**', symbol2: '**', mode: 'surround' },
-      { name: 'success', symbol1: '**:white_check_mark: - ', symbol2: '**', mode: 'surround' },
-      { name: 'invalidInput', msg: '**:x: - Invalid input, please try again**', mode: 'msg' },
-      { name: 'promptTimeout', msg: '**:x: - Prompt cancelled because of inactivity**', mode: 'msg' },
-      { name: 'promptBlocked', msg: '**:x: - You already have an active prompt**', mode: 'msg' }
+      { name: 'success', symbol1: ':white_check_mark: - ', symbol2: '', mode: 'surround' },
+      { name: 'invalidInput', msg: ':x: - Invalid input, please try again', mode: 'msg' },
+      { name: 'promptTimeout', msg: ':x: - Prompt cancelled because of inactivity', mode: 'msg' },
+      { name: 'promptBlocked', msg: ':x: - You already have an active prompt', mode: 'msg' }
     ]
 
     // Basically we turn that array of formatting options into actual chainable methods
@@ -71,7 +71,7 @@ class Responder extends FormatedString {
   }
 
   error (str, ttl = 15) {
-    this.str += `**:x: - ${str}**`
+    this.str += `:x: - ${str}`
     this.ttl(ttl)
     return this
   }
@@ -127,11 +127,15 @@ class Responder extends FormatedString {
 
   async waitSingle (userMsg, timeout = 60) {
     return new Promise((resolve, reject) => {
-      bot.on('messageCreate', function (msg) {
+      const listener = (msg) => {
         if (msg.author.id === userMsg.author.id && msg.channel.id === userMsg.channel.id) {
           resolve(msg)
+          bot.removeListener('messageCreate', listener)
+          console.log('remove')
         }
-      })
+        console.log('listener')
+      }
+      bot.on('messageCreate', listener)
 
       setTimeout(() => {
         reject(new Error('timeout'))
