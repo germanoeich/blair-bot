@@ -1,7 +1,9 @@
 import express from 'express'
 import Prometheus from 'prom-client'
 
-const counter = new Prometheus.Counter({ name: 'blair_messages_seen', help: 'Number of messages Blair has seen' })
+const msgSeenCounter = new Prometheus.Counter({ name: 'blair_messages_seen', help: 'Number of messages Blair has seen' })
+const commandsCounter = new Prometheus.Counter({ name: 'blair_commands_total', help: 'Number of commands Blair has executed' })
+const guildsGauge = new Prometheus.Gauge({ name: 'blair_guilds_total', help: 'Current number of guilds' })
 
 function expose () {
   const app = express()
@@ -21,8 +23,21 @@ function expose () {
 }
 
 function registerEvents (bot) {
-  bot.on('messageCreate', () => {
-    counter.inc()
+  bot.on('messageCreate', (msg) => {
+    msgSeenCounter.inc()
+    if (msg.command) {
+      commandsCounter.inc()
+    }
+  })
+
+  guildsGauge.set(bot.guilds.size)
+
+  bot.on('guildDelete', (guild) => {
+    guildsGauge.set(bot.guilds.size)
+  })
+
+  bot.on('guildCreate', (guild) => {
+    guildsGauge.set(bot.guilds.size)
   })
 }
 
