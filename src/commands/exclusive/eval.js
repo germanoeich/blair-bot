@@ -36,7 +36,7 @@ export class EvalCmd extends BaseCommand {
       return
     }
 
-    if (typeof result.substr === 'string') {
+    if (typeof result === 'string') {
       result = result.substr(0, 1950)
     }
 
