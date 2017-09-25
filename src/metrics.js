@@ -8,16 +8,9 @@ function registerEvents (bot) {
       dogstatsd.increment('blair.commands_total')
     }
   })
-
-  dogstatsd.gauge('blair.guilds_total', bot.guilds.size)
-
-  bot.on('guildDelete', (guild) => {
+  setInterval(() => {
     dogstatsd.gauge('blair.guilds_total', bot.guilds.size)
-  })
-
-  bot.on('guildCreate', (guild) => {
-    dogstatsd.gauge('blair.guilds_total', bot.guilds.size)
-  })
+  }, 10000)
 }
 
 export default {
