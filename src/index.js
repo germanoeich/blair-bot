@@ -43,8 +43,9 @@ export async function connect () {
     // Purple looks so nice with the avatar...
     _bot.editStatus('online', { name: 'b!help', type: 1, url: 'https://www.twitch.tv/notgin' })
 
-    metrics.expose()
-    metrics.registerEvents(_bot)
+    if (process.env.NODE_ENV === 'production') {
+      metrics.registerEvents(_bot)
+    }
 
     console.log('Ready!')
   })
