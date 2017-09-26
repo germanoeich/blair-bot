@@ -8,6 +8,7 @@
     "chalk": "^2.0.1",
     "cross-env": "^5.0.5",
     "eris": "^0.7.2",
+    "eris-lavalink": "briantanner/eris-lavalink",
     "erlpack": "hammerandchisel/erlpack",
     "eventemitter3": "^2.0.3",
     "ioredis": "^3.1.4",
