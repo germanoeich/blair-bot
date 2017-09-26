@@ -4,6 +4,7 @@ import config from './config/config.js'
 import cmdConfig from './config/command-config.js'
 import { registerCommands } from './commands'
 import { init } from './lib'
+import { initPlayer } from './lib/lavalink/player'
 import redis from './data/redis.js'
 import metrics from './metrics'
 import Raven from 'raven'
@@ -34,6 +35,8 @@ export async function connect () {
 
   _bot.on('ready', async () => {
     init(_bot)
+    initPlayer(_bot, config.lavalink.hosts)
+
     registerCommands(_bot)
     await applyGuildPrefixes()
     if (process.send) {
