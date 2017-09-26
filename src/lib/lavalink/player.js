@@ -28,7 +28,7 @@ export async function getPlayer (msg) {
 export async function resolveTracks (search) {
   try {
     console.log('trying to fetch')
-    var result = await fetch(`http://${node.host}:2332/loadtracks?identifier=${search}`, {
+    var result = await fetch(`http://${node.host}:2333/loadtracks?identifier=${search}`, {
       headers: {
         'Authorization': node.password,
         'Accept': 'application/json'
