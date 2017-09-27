@@ -5,7 +5,7 @@ function registerEvents (bot) {
   bot.on('messageCreate', (msg) => {
     dogstatsd.increment('blair.messages_total')
     if (msg.command) {
-      dogstatsd.increment('blair.commands_total', [`cmdName:${msg.command.name}`])
+      dogstatsd.increment('blair.commands_total', [`cmd:${msg.command.label}`])
     }
   })
   setInterval(() => {
