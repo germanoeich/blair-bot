@@ -12,7 +12,8 @@ let _bot
 
 export async function connect () {
   Raven.config(config.sentry.dsn, {
-    environment: process.env.NODE_ENV
+    environment: process.env.NODE_ENV,
+    release: config.sentry.release
   }).install(function (err, sendErr, eventId) {
     if (!sendErr) {
       console.log('Successfully sent fatal error with eventId ' + eventId + ' to Sentry:')
