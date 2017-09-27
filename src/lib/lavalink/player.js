@@ -1,33 +1,13 @@
 import { PlayerManager } from 'eris-lavalink'
 import fetch from 'node-fetch'
+
 // We have only a single instance, when we add more,
 // this will have to change (or not /shrug)
 let node
 
-export async function getPlayer (msg) {
-  const channel = msg.channel.guild.channels.get(msg.member.voiceState.channelID)
-  const client = msg._client
-
-  let player = client.voiceConnections.get(channel.guild.id)
-  console.log(player)
-  if (player && player.channelId === channel.id) {
-    return player
-  } else if (player) {
-    player.stop()
-    player.switchChannel(channel.id)
-  }
-
-  let options = {}
-  if (channel.guild.region) {
-    options.region = channel.guild.region
-  }
-
-  return client.voiceConnections.join(channel.guild.id, channel.id, options)
-}
-
-export async function resolveTracks (search) {
+export async function searchTracks (search, ytsearch = false) {
+  search = ytsearch ? `ytsearch:${search}` : search
   try {
-    console.log('trying to fetch')
     var result = await fetch(`http://${node.host}:2333/loadtracks?identifier=${search}`, {
       headers: {
         'Authorization': node.password,
@@ -35,7 +15,6 @@ export async function resolveTracks (search) {
       }
     })
     result = await result.json()
-    console.log(result)
   } catch (err) {
     throw err
   }
@@ -45,6 +24,35 @@ export async function resolveTracks (search) {
   }
   // console.log(result)
   return result // array of tracks resolved from lavalink
+}
+
+export async function get (msg, join = false) {
+  const voiceChannel = msg.channel.guild.channels.get(msg.member.voiceState.channelID)
+  const client = msg._client
+  const guildId = voiceChannel.guild.id
+
+  let player = client.voiceConnections.get(guildId)
+
+  if (!join) {
+    return player
+  }
+
+  if (player) {
+    if (player.channelId === voiceChannel.id) {
+      return player
+    }
+
+    player.stop()
+    player.switchChannel(voiceChannel.id)
+    return player
+  }
+
+  let options = {}
+  if (voiceChannel.guild.region) {
+    options.region = voiceChannel.guild.region
+  }
+
+  return client.voiceConnections.join(guildId, voiceChannel.id, options)
 }
 
 export function initPlayer (bot, hosts) {
@@ -59,7 +67,6 @@ export function initPlayer (bot, hosts) {
 }
 
 export default {
-  initPlayer,
-  resolveTracks,
-  getPlayer
+  get,
+  searchTracks
 }
