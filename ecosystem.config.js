@@ -30,7 +30,7 @@ module.exports = {
       repo: 'git@github.com:germanoeich/blair-bot.git',
       path: '/var/opt/node/blair',
       'ssh_options': 'StrictHostKeyChecking=no',
-      'post-deploy': 'yarn && sudo ./sentryRelease.sh && yarn build && pm2 startOrRestart ecosystem.config.js --env production'
+      'post-deploy': 'yarn && sudo sh ./sentryRelease.sh && yarn build && pm2 startOrRestart ecosystem.config.js --env production'
     }
   }
 }
