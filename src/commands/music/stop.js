@@ -16,19 +16,20 @@ export default class StopCmd extends BaseCommand {
   }
 
   async action (msg, args) {
-    var responder = new Responder(msg)
+    var responder = new Responder(msg.channel)
 
     var p = await player.get(msg)
 
     if (!p) {
-      responder.error('Bot is not playing', 10).send()
+      responder.error('Bot is not playing anything', 10).send()
+      return
     }
 
     const currentChannelId = p.channelId
 
     await p.stop()
-    await p.leave(msg.channel.guild.id)
+    await p.manager.leave(msg.channel.guild.id)
 
-    responder.succes(`Stopped and unbound from :speaker: ${msg.guild.channels.get(currentChannelId).name} `).send()
+    responder.success(`Stopped and unbound from :speaker: ${msg.channel.guild.channels.get(currentChannelId).name} `).send()
   }
 }
