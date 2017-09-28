@@ -53,7 +53,17 @@ export async function get (msg, join = false) {
     options.region = voiceChannel.guild.region
   }
 
-  return client.voiceConnections.join(guildId, voiceChannel.id, options)
+  player = client.voiceConnections.join(guildId, voiceChannel.id, options)
+
+  player.on('error', (err) => {
+    console.error('ERROR - Lavalink error raised:\n' + JSON.stringify(err))
+
+    // So we don't generate a unique error on sentry for each track
+    err.track = ''
+    Raven.captureException(new Error('ERROR - Lavalink error raised:\n' + JSON.stringify(err)))
+  })
+
+  return player
 }
 
 export function initPlayer (bot, hosts) {
@@ -63,14 +73,6 @@ export function initPlayer (bot, hosts) {
       numShards: bot.options.maxShards, // number of shards
       userId: bot.user.id, // the user id of the bot
       defaultRegion: 'us'
-    })
-
-    bot.voiceConnections.on('error', (err) => {
-      console.error('ERROR - Lavalink error raised:\n' + JSON.stringify(err))
-
-      // So we don't generate a unique error on sentry for each track
-      err.track = ''
-      Raven.captureException(new Error('ERROR - Lavalink error raised:\n' + JSON.stringify(err)))
     })
   }
 }
