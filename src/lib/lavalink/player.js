@@ -1,5 +1,6 @@
 import { PlayerManager } from 'eris-lavalink'
 import fetch from 'node-fetch'
+import Raven from 'raven'
 
 // We have only a single instance, when we add more,
 // this will have to change (or not /shrug)
@@ -62,6 +63,14 @@ export function initPlayer (bot, hosts) {
       numShards: bot.options.maxShards, // number of shards
       userId: bot.user.id, // the user id of the bot
       defaultRegion: 'us'
+    })
+
+    bot.voiceConnections.on('error', (err) => {
+      console.error('ERROR - Lavalink error raised:\n' + JSON.stringify(err))
+
+      // So we don't generate a unique error on sentry for each track
+      err.track = ''
+      Raven.captureException(new Error('ERROR - Lavalink error raised:\n' + JSON.stringify(err)))
     })
   }
 }
