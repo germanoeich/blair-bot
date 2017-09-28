@@ -1,5 +1,7 @@
 import BaseCommand from './../baseCommand'
 import player from './../../lib/lavalink/player'
+import Responder from './../../lib/messages/responder'
+import validUrl from 'valid-url'
 
 export default class PlayCmd extends BaseCommand {
   constructor (bot) {
@@ -16,19 +18,33 @@ export default class PlayCmd extends BaseCommand {
   }
 
   async action (msg, args) {
+    var responder = new Responder(msg.channel)
+
     if (!msg.member.voiceState.channelID) {
-      return 'join a voice channel'
+      responder.error('Join a voice channel to start playing', 10).send()
+      return
     }
 
-    var tracks = await player.searchTracks(args[0])
+    let tracks
+    if (validUrl.isUri(args[0])) {
+      tracks = await player.searchTracks(args[0])
+    } else {
+      tracks = await player.searchTracks(`ytsearch:${args.join(' ')}`)
+    }
 
     if (tracks.length === 0) {
-      return 'no results'
+      responder.error('No results found for the query or URL is not supported', 10).send()
+      return
+    }
+
+    let choosenTrack = tracks[0]
+    if (tracks.length > 1) {
+      // handle multiple results here
     }
 
     var p = await player.get(msg, true)
-    p.play(tracks[0].track)
+    p.play(choosenTrack.track)
 
-    return '```JSON\n' + JSON.stringify(tracks[0]) + '```'
+    responder.success(`Playing ${choosenTrack.info.title}`).send()
   }
 }
