@@ -53,7 +53,7 @@ export async function get (msg, join = false) {
     options.region = voiceChannel.guild.region
   }
 
-  player = client.voiceConnections.join(guildId, voiceChannel.id, options)
+  player = await client.voiceConnections.join(guildId, voiceChannel.id, options)
 
   player.on('error', (err) => {
     console.error('ERROR - Lavalink error raised:\n' + JSON.stringify(err))
