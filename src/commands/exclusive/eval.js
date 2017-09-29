@@ -1,6 +1,7 @@
 import util from 'util'
 import Responder from './../../lib/messages/responder'
 import BaseCommand from './../baseCommand'
+import player from './../../lib/lavalink/player'
 
 export class EvalCmd extends BaseCommand {
   constructor (bot) {
@@ -22,6 +23,7 @@ export class EvalCmd extends BaseCommand {
     var _msg = msg // eslint-disable-line no-unused-vars
     var _bot = msg._client // eslint-disable-line no-unused-vars
     var _json = util.inspect // eslint-disable-line no-unused-vars
+    var _player = await player.get(msg) // eslint-disable-line no-unused-vars
     let result
     try {
       result = eval(args.join(' ')) // eslint-disable-line no-eval
