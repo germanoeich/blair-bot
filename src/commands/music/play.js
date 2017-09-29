@@ -7,12 +7,11 @@ export default class PlayCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'play',
-      description: 'Play a song',
-      fullDescription: 'Used to play a song',
-      requirements: {
-        userIDs: ['227115752396685313']
-      },
-      argsRequired: true
+      usage: '<url|query>',
+      argsRequired: true,
+      description: 'Play/search track',
+      fullDescription: 'Play or search for and play a track',
+      invalidUsageMessage: 'Specify an url or query'
     }
     super(info, bot)
   }
@@ -26,13 +25,13 @@ export default class PlayCmd extends BaseCommand {
     }
 
     let tracks
-    if (validUrl.isUri(args[0])) {
+    if (validUrl.isWebUri(args[0])) {
       tracks = await player.searchTracks(args[0])
     } else {
       tracks = await player.searchTracks(`ytsearch:${args.join(' ')}`)
     }
 
-    if (tracks.length === 0) {
+    if (tracks.length === 0 || tracks.error) {
       responder.error('No results found for the query or URL is not supported', 10).send()
       return
     }

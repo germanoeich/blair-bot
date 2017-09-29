@@ -44,7 +44,7 @@ export async function get (msg, join = false) {
     }
 
     player.stop()
-    player.switchChannel(voiceChannel.id)
+    player.switchChannel(voiceChannel.id, true)
     return player
   }
 

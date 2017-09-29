@@ -7,10 +7,7 @@ export default class StopCmd extends BaseCommand {
     const info = {
       name: 'stop',
       description: 'Stop the current song',
-      fullDescription: 'Used to Stop the current song',
-      requirements: {
-        userIDs: ['227115752396685313']
-      }
+      fullDescription: 'Used to Stop the current song'
     }
     super(info, bot)
   }
