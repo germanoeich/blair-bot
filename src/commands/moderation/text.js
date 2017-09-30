@@ -38,7 +38,6 @@ class ListCmd extends BaseCommand {
   }
 
   async action (msg, args) {
-    console.log('list')
     const guildId = msg.channel.guild.id
     const channelId = msg.channel.id
     const keyIdentifier = `text:block:${guildId}:${channelId}`
