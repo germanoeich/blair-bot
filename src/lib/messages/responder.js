@@ -9,8 +9,11 @@ class FormatedString {
       { name: 'underline', symbol1: '__', symbol2: '__', mode: 'surround' },
       { name: 'inlineCode', symbol1: '`', symbol2: '`', mode: 'surround' },
       { name: 'code', symbol1: '```{{args}}\n', symbol2: '```', mode: 'args-surround' },
+      { name: 'codeStart', symbol1: '```{{args}}\n', mode: 'args-prefix' },
+      { name: 'codeEnd', symbol1: '```', mode: 'suffix' },
       { name: 'bold', symbol1: '**', symbol2: '**', mode: 'surround' },
-      { name: 'success', symbol1: ':white_check_mark: - ', symbol2: '', mode: 'surround' },
+      { name: 'success', symbol1: ':white_check_mark: - ', mode: 'prefix' },
+      { name: 'info', symbol1: ':information_source: - ', mode: 'prefix' },
       { name: 'invalidInput', msg: ':x: - Invalid input, please try again', mode: 'msg' },
       { name: 'promptTimeout', msg: ':x: - Prompt cancelled because of inactivity', mode: 'msg' },
       { name: 'promptBlocked', msg: ':x: - You already have an active prompt', mode: 'msg' }
@@ -21,6 +24,20 @@ class FormatedString {
       if (element.mode === 'prefix') {
         this[element.name] = function (str) {
           this.str += `${element.symbol1}${str}`
+          return this
+        }
+      }
+
+      if (element.mode === 'args-prefix') {
+        this[element.name] = function (str, args) {
+          this.str += `${element.symbol1.replace('{{args}}', args || '')}${str}`
+          return this
+        }
+      }
+
+      if (element.mode === 'suffix') {
+        this[element.name] = function (str) {
+          this.str += `${str}${element.symbol1}`
           return this
         }
       }
