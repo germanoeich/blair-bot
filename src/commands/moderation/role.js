@@ -1,50 +1,6 @@
 import TargetSelector from './../../lib/util/target-selector'
 import Responder from './../../lib/messages/responder'
-
-const info = {
-  name: 'role',
-  usage: '<add|remove> <user> <role>',
-  argsRequired: true,
-  description: 'Add/remove user roles.',
-  fullDescription: 'Add/remove user roles.',
-  requirements: {
-    permissions: {
-      'manageRoles': true
-    }
-  },
-  permissionMessage: 'You need the "Manage Roles" permission.',
-  invalidUsageMessage: 'Specify an operation, target and a role'
-}
-
-const addInfo = {
-  name: 'add',
-  usage: '<user> <role>',
-  argsRequired: true,
-  description: 'Add user roles.',
-  fullDescription: 'Add user roles.',
-  requirements: {
-    permissions: {
-      'manageRoles': true
-    }
-  },
-  permissionMessage: 'You need the "Manage Roles" permission.',
-  invalidUsageMessage: 'Specify an target and a role'
-}
-
-const removeInfo = {
-  name: 'remove',
-  usage: '<user> <role>',
-  argsRequired: true,
-  description: 'Remove user roles.',
-  fullDescription: 'Remove user roles.',
-  requirements: {
-    permissions: {
-      'manageRoles': true
-    }
-  },
-  permissionMessage: 'You need the "Manage Roles" permission.',
-  invalidUsageMessage: 'Specify an target and a role'
-}
+import BaseCommand from './../baseCommand'
 
 function getMemberHighestRole (member, guild) {
   return member.roles.map((roleId) => guild.roles.get(roleId))
@@ -90,76 +46,124 @@ async function parseParams (msg, args) {
   }
 }
 
-async function removeAction (msg, args) {
-  const responder = new Responder(msg.channel)
+export default class RoleCmd extends BaseCommand {
+  constructor (bot) {
+    const info = {
+      name: 'role',
+      usage: '<add|remove> <user> <role>',
+      argsRequired: true,
+      description: 'Add/remove user roles.',
+      fullDescription: 'Add/remove user roles.',
+      requirements: {
+        permissions: {
+          'manageRoles': true
+        }
+      },
+      permissionMessage: 'You need the "Manage Roles" permission.',
+      invalidUsageMessage: 'Specify an operation, target and a role'
+    }
+    super(info, bot)
+    this.addSubCommand(new AddCmd(bot))
+    this.addSubCommand(new RemoveCmd(bot))
+  }
+}
 
-  const {
-    member,
-    role
-  } = await parseParams(msg, args)
-
-  if (!member || !role) {
-    return
+class AddCmd extends BaseCommand {
+  constructor (bot) {
+    const info = {
+      name: 'add',
+      usage: '<user> <role>',
+      argsRequired: true,
+      description: 'Add user roles.',
+      fullDescription: 'Add user roles.',
+      requirements: {
+        permissions: {
+          'manageRoles': true
+        }
+      },
+      permissionMessage: 'You need the "Manage Roles" permission.',
+      invalidUsageMessage: 'Specify an target and a role'
+    }
+    super(info, bot)
   }
 
-  if (member.roles && member.roles.every((roleId) => roleId !== role.id)) {
-    responder.error('User is not assigned to this role').send()
-    return
-  }
+  async action (msg, args) {
+    const responder = new Responder(msg.channel)
 
-  try {
-    await member.removeRole(role.id)
-    responder.success(`User ${member.user.username}#${member.user.discriminator} was removed from role ${role.name}`).send()
-  } catch (e) {
-    const error = JSON.parse(e.response)
-    if (error.code === '50013') {
-      responder.error(`Missing Permissions, make sure bot has Manage Roles perms and the role you are trying to assign/remove is not higher than the bot's role.`).send()
-    } else {
-      responder.error(`Failed with error: ${error.code} - ${error.message} `).send()
+    const {
+      member,
+      role
+    } = await parseParams(msg, args)
+
+    if (!member || !role) {
+      return
+    }
+
+    if (member.roles && member.roles.some((roleId) => roleId === role.id)) {
+      responder.error('User is already assigned to this role').send()
+      return
+    }
+
+    try {
+      await member.addRole(role.id)
+      responder.success(`User ${member.user.username}#${member.user.discriminator} was assigned to role ${role.name}`).send()
+    } catch (e) {
+      const error = JSON.parse(e.response)
+      if (error.code === 50013) {
+        responder.error(`Missing Permissions, make sure bot has Manage Roles perms and the role you are trying to assign/remove is not higher than the bot's role.`).send()
+      } else {
+        responder.error(`Failed with error: ${error.code} - ${error.message} `).send()
+      }
     }
   }
 }
 
-async function addAction (msg, args) {
-  const responder = new Responder(msg.channel)
-
-  const {
-    member,
-    role
-  } = await parseParams(msg, args)
-
-  if (!member || !role) {
-    return
+class RemoveCmd extends BaseCommand {
+  constructor (bot) {
+    const info = {
+      name: 'remove',
+      usage: '<user> <role>',
+      argsRequired: true,
+      description: 'Remove user roles.',
+      fullDescription: 'Remove user roles.',
+      requirements: {
+        permissions: {
+          'manageRoles': true
+        }
+      },
+      permissionMessage: 'You need the "Manage Roles" permission.',
+      invalidUsageMessage: 'Specify an target and a role'
+    }
+    super(info, bot)
   }
 
-  if (member.roles && member.roles.some((roleId) => roleId === role.id)) {
-    responder.error('User is already assigned to this role').send()
-    return
-  }
+  async action (msg, args) {
+    const responder = new Responder(msg.channel)
 
-  try {
-    await member.addRole(role.id)
-    responder.success(`User ${member.user.username}#${member.user.discriminator} was assigned to role ${role.name}`).send()
-  } catch (e) {
-    const error = JSON.parse(e.response)
-    if (error.code === 50013) {
-      responder.error(`Missing Permissions, make sure bot has Manage Roles perms and the role you are trying to assign/remove is not higher than the bot's role.`).send()
-    } else {
-      responder.error(`Failed with error: ${error.code} - ${error.message} `).send()
+    const {
+      member,
+      role
+    } = await parseParams(msg, args)
+
+    if (!member || !role) {
+      return
+    }
+
+    if (member.roles && member.roles.every((roleId) => roleId !== role.id)) {
+      responder.error('User is not assigned to this role').send()
+      return
+    }
+
+    try {
+      await member.removeRole(role.id)
+      responder.success(`User ${member.user.username}#${member.user.discriminator} was removed from role ${role.name}`).send()
+    } catch (e) {
+      const error = JSON.parse(e.response)
+      if (error.code === '50013') {
+        responder.error(`Missing Permissions, make sure bot has Manage Roles perms and the role you are trying to assign/remove is not higher than the bot's role.`).send()
+      } else {
+        responder.error(`Failed with error: ${error.code} - ${error.message} `).send()
+      }
     }
   }
-}
-
-async function action (msg, args) {
-}
-
-function register (bot) {
-  const cmd = bot.registerCommand(info.name, action, info)
-  cmd.registerSubcommand(addInfo.name, addAction, addInfo)
-  cmd.registerSubcommand(removeInfo.name, removeAction, removeInfo)
-}
-
-export default {
-  info,
-  register
 }

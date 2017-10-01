@@ -11,7 +11,6 @@ export default class BaseCommand {
   }
 
   action () {
-    return 'Not implemented'
   }
 
   register () {

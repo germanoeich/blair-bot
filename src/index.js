@@ -55,8 +55,9 @@ export async function connect () {
   })
 
   _bot.on('error', (e) => {
-    console.error(chalk.red('ERROR:', e))
-    Raven.captureException(JSON.stringify(e))
+    console.error(e)
+    // Sometimes errors will be thrown as regular objects
+    Raven.captureException((e && e.stack) ? e : JSON.stringify(e))
   })
   _bot.on('warn', (msg) => console.warn(chalk.yellow('WARN:', msg)))
 

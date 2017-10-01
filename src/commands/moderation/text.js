@@ -25,8 +25,6 @@ export default class TextCmd extends BaseCommand {
     this.addSubCommand(new ListCmd(bot))
     this.addSubCommand(new RemoveBlockCmd(bot))
   }
-
-  action () { }
 }
 
 class RemoveBlockCmd extends BaseCommand {
