@@ -1,8 +1,6 @@
-import TargetSelector from './../../lib/util/target-selector'
-import Responder from './../../lib/messages/responder'
-import BaseCommand from './../baseCommand'
+import TargetedCommand from './../targetedCommand'
 
-export default class KickCmd extends BaseCommand {
+export default class KickCmd extends TargetedCommand {
   constructor (bot) {
     const info = {
       name: 'kick',
@@ -16,35 +14,14 @@ export default class KickCmd extends BaseCommand {
         }
       },
       permissionMessage: 'You need the "Kick Members" permission.',
-      invalidUsageMessage: 'Specify a target'
+      invalidUsageMessage: 'Specify a target',
+      targetInfo: {
+        action: async (member, reason, responder) => {
+          await member.kick(reason)
+          responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`).send()
+        }
+      }
     }
     super(info, bot)
-  }
-
-  async action (msg, args) {
-    const responder = new Responder(msg.channel)
-
-    const targetSelector = new TargetSelector()
-
-    if (args.length === 0) {
-      responder.error('Specify an user').send()
-      return
-    }
-
-    let member = await targetSelector.find(msg, args[0])
-    const reason = args[1] || ''
-    if (!member) {
-      return
-    }
-
-    try {
-      await member.kick(reason)
-      responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`)
-    } catch (e) {
-      const error = JSON.parse(e.response)
-      responder.error(`Failed with error: ${error.code} - ${error.message} `)
-    }
-
-    responder.send()
   }
 }

@@ -30,7 +30,7 @@ export async function searchTracks (search, ytsearch = false) {
 export async function get (msg, join = false) {
   const voiceChannel = msg.channel.guild.channels.get(msg.member.voiceState.channelID)
   const client = msg._client
-  const guildId = voiceChannel.guild.id
+  const guildId = msg.channel.guild.id
 
   let player = client.voiceConnections.get(guildId)
 
