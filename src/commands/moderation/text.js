@@ -1,6 +1,6 @@
 import BaseCommand from './../baseCommand'
 import Responder from './../../lib/messages/responder'
-import DeleteQueue from './../../lib/messages/deleteQueue'
+import OptionSelector from './../../lib/messages/optionSelector'
 import redis from './../../data/redis'
 import matcher from 'matcher'
 
@@ -45,7 +45,7 @@ class RemoveBlockCmd extends BaseCommand {
     const keyIdentifier = `text:block:${guildId}:${channelId}`
     const responder = new Responder(msg.channel)
 
-    let keys = await this.redisClient.smembers(keyIdentifier)
+    const keys = await this.redisClient.smembers(keyIdentifier)
 
     if (keys.length === 0) {
       responder.info('There are no text rules for this channel').send()
@@ -60,39 +60,22 @@ class RemoveBlockCmd extends BaseCommand {
       responder.text(`[${i}] ${keys[i]}`).newline()
     }
 
-    var botMsg = await responder.codeEnd('').send()
-    const deleteQueue = new DeleteQueue()
+    const botMsg = await responder.codeEnd('').send()
+    const optionSelector = new OptionSelector(msg, keys)
 
-    do {
-      const responseMsg = await responder.waitSingle(msg)
+    var response = await optionSelector.queryUser(botMsg, true)
 
-      if (responseMsg.content === 'cancel') {
-        botMsg.delete()
-        await responder.success('Prompt cancelled').ttl(10).send()
-        break
-      }
+    if (response === 'cancel') {
+      return
+    }
 
-      if (responseMsg.content === 'all') {
-        await this.redisClient.del(keyIdentifier)
-        await responder.success('Succesfully deleted all rules for this channel').send()
-        break
-      }
-
-      const selectedIndex = parseInt(responseMsg.content)
-      if (!Number.isNaN(selectedIndex) && keys[selectedIndex] !== undefined) {
-        this.redisClient.srem(keyIdentifier, keys[selectedIndex])
-        responder.success(`Succesfully deleted rule ${keys[selectedIndex]}`).send()
-        break
-      }
-
-      deleteQueue.deleteAll()
-
-      deleteQueue.add(await responder
-                .invalidInput()
-                .send())
-    } while (true)
-
-    deleteQueue.deleteAll()
+    if (response === 'all') {
+      this.redisClient.del(keyIdentifier)
+      responder.success('Succesfully deleted all rules for this channel').send()
+    } else {
+      this.redisClient.srem(keyIdentifier, response)
+      responder.success(`Succesfully deleted rule ${response}`).send()
+    }
   }
 }
 
