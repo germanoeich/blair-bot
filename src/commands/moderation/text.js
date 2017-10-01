@@ -76,12 +76,12 @@ class RemoveBlockCmd extends BaseCommand {
 
       if (responseMsg.content === 'all') {
         await this.redisClient.del(keyIdentifier)
-        await responder.success('Succesfully delete all rules for this channel').send()
+        await responder.success('Succesfully deleted all rules for this channel').send()
         break
       }
 
       const selectedIndex = parseInt(responseMsg.content)
-      if (!Number.isNaN(selectedIndex)) {
+      if (!Number.isNaN(selectedIndex) && keys[selectedIndex] !== undefined) {
         this.redisClient.srem(keyIdentifier, keys[selectedIndex])
         responder.success(`Succesfully deleted rule ${keys[selectedIndex]}`).send()
         break
