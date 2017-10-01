@@ -148,13 +148,12 @@ class Responder extends FormatedString {
         if (msg.author.id === userMsg.author.id && msg.channel.id === userMsg.channel.id) {
           resolve(msg)
           bot.removeListener('messageCreate', listener)
-          console.log('remove')
         }
-        console.log('listener')
       }
       bot.on('messageCreate', listener)
 
       setTimeout(() => {
+        bot.removeListener('messageCreate', listener)
         reject(new Error('timeout'))
       }, timeout * 1000)
     })
