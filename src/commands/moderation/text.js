@@ -1,5 +1,6 @@
 import BaseCommand from './../baseCommand'
 import Responder from './../../lib/messages/responder'
+import DeleteQueue from './../../lib/messages/deleteQueue'
 import redis from './../../data/redis'
 import matcher from 'matcher'
 
@@ -7,7 +8,7 @@ export default class TextCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'text',
-      usage: '<block|list> <expression>',
+      usage: '<block|list|remove> [expression]',
       argsRequired: true,
       description: 'Text management command',
       fullDescription: 'Text management command to block or transfer text to the proper channels',
@@ -22,6 +23,78 @@ export default class TextCmd extends BaseCommand {
     super(info, bot)
     this.addSubCommand(new BlockCmd(bot))
     this.addSubCommand(new ListCmd(bot))
+    this.addSubCommand(new RemoveBlockCmd(bot))
+  }
+
+  action () { }
+}
+
+class RemoveBlockCmd extends BaseCommand {
+  constructor (bot) {
+    const info = {
+      name: 'remove',
+      usage: 'remove',
+      description: 'Removes a rule',
+      fullDescription: 'Used to remove a rule or to remove all channel rules'
+    }
+    super(info, bot)
+    this.redisClient = redis.connect()
+  }
+
+  async action (msg, args) {
+    const guildId = msg.channel.guild.id
+    const channelId = msg.channel.id
+    const keyIdentifier = `text:block:${guildId}:${channelId}`
+    const responder = new Responder(msg.channel)
+
+    let keys = await this.redisClient.smembers(keyIdentifier)
+
+    if (keys.length === 0) {
+      responder.info('There are no text rules for this channel').send()
+      return
+    }
+
+    responder.info(`Type an ID to remove the rule, type 'all' to remove all rules, type 'cancel' to exit`)
+             .newline()
+             .codeStart('', 'Haskell')
+
+    for (var i = 0; i < keys.length; i++) {
+      responder.text(`[${i}] ${keys[i]}`).newline()
+    }
+
+    var botMsg = await responder.codeEnd('').send()
+    const deleteQueue = new DeleteQueue()
+
+    do {
+      const responseMsg = await responder.waitSingle(msg)
+
+      if (responseMsg.content === 'cancel') {
+        botMsg.delete()
+        await responder.success('Prompt cancelled').ttl(10).send()
+        break
+      }
+
+      if (responseMsg.content === 'all') {
+        await this.redisClient.del(keyIdentifier)
+        await responder.success('Succesfully delete all rules for this channel').send()
+        break
+      }
+
+      const selectedIndex = parseInt(responseMsg.content)
+      if (!Number.isNaN(selectedIndex)) {
+        this.redisClient.srem(keyIdentifier, keys[selectedIndex])
+        responder.success(`Succesfully deleted rule ${keys[selectedIndex]}`).send()
+        break
+      }
+
+      deleteQueue.deleteAll()
+
+      deleteQueue.add(await responder
+                .invalidInput()
+                .send())
+    } while (true)
+
+    deleteQueue.deleteAll()
   }
 }
 
@@ -46,7 +119,8 @@ class ListCmd extends BaseCommand {
     let keys = await this.redisClient.smembers(keyIdentifier)
 
     if (keys.length === 0) {
-      responder.info('There are no text rules for this channel')
+      responder.info('There are no text rules for this channel').send()
+      return
     }
 
     responder.info(`There are ${keys.length} text block rules for this channel:`)
