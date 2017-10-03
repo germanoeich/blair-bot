@@ -1,9 +1,12 @@
 language: node_js
 services:
-  - redis-server
+- redis-server
 cache: yarn
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
+- openssl aes-256-cbc -K $encrypted_c99bbf6bc2a5_key -iv $encrypted_c99bbf6bc2a5_iv
+  -in config.js.enc -out src/config/config.js -d
+- sudo apt-get -qq update
+- sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential
+  g++
 install: yarn
 script: yarn test
