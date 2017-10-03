@@ -23,9 +23,11 @@ export async function connect () {
     // process.exit(1)
   })
 
+  const shardCount = (process.env.NODE_ENV !== 'test') ? 2 : 1
+
   _bot = new Eris.CommandClient(config.token, {
-    getAllUsers: true,
-    maxShards: 2
+    getAllUsers: process.env.NODE_ENV !== 'test',
+    maxShards: shardCount
   }, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',

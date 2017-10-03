@@ -1,8 +1,8 @@
 import chai, { expect } from 'chai'
 import { describe, it } from 'mocha'
-import { connect } from './../../src/index.js'
+import { connect } from './../src/index.js'
 import dirtyChai from 'dirty-chai'
-import { bot } from './../../src/lib/index.js'
+import { bot } from './../src/lib/index.js'
 
 chai.use(dirtyChai)
 
@@ -22,6 +22,6 @@ describe('Health checks', () => {
       expect(bot).to.be.ok()
       expect(bot.ready).to.equal(true)
       done()
-    }, 2000)
+    }, 13500)
   })
 })
