@@ -10,14 +10,12 @@ export default class PrefixCmd extends BaseCommand {
       description: 'Changes the bot prefix.',
       fullDescription: 'Changes the bot prefix.',
       caseInsensitive: true,
-      argsRequired: true,
       requirements: {
         permissions: {
           'administrator': true
         }
       },
-      permissionMessage: 'You need to be an administrator to set this.',
-      invalidUsageMessage: 'Specify an prefix'
+      permissionMessage: 'You need to be an administrator to set this.'
     }
     super(info, bot)
 
@@ -27,9 +25,16 @@ export default class PrefixCmd extends BaseCommand {
   async action (msg, args) {
     const responder = new Responder(msg.channel)
     try {
+      const guild = msg.channel.guild
+
+      if (args.length === 0) {
+        const prefix = await this.redisClient.get(`guild_prefix:${guild.id}`) || 'b!'
+        responder.info(`The prefix for this guild is ${prefix}`).send()
+        return
+      }
+
       const newPrefix = args[0]
 
-      const guild = msg.channel.guild
       this.bot.registerGuildPrefix(guild.id, [ '@mention ', newPrefix ])
 
       await this.redisClient.set(`guild_prefix:${guild.id}`, newPrefix)
