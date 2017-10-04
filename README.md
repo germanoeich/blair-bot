@@ -1,4 +1,5 @@
-[![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot)
+[![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot) [![Build Status](https://travis-ci.org/germanoeich/blair-bot.svg?branch=master)](https://travis-ci.org/germanoeich/blair-bot)
+
 # Blair
 
 Blair is an open-source multi-purpose discord bot. It's an WIP, so expect things to be broken and zero docs right now. I plan on doing a serie of blog posts explaining the process of creating a discord bot as soon as I finish this project (or get it into an usable state).
