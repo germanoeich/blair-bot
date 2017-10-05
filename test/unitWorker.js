@@ -26,12 +26,16 @@ export default class UnitWorker {
     this.bot.createMessage(channelId, content)
     return new Promise((resolve, reject) => {
       var handler = (msg) => {
-        if (msg.author.id === this.bot.user.id) {
-          return
-        }
+        // This is ugly, but discord may or may not process
+        // our messages in order. So we have to wait to be safe
+        setTimeout(() => {
+          if (msg.author.id === this.bot.user.id) {
+            return
+          }
 
-        this.bot.removeListener(handler)
-        resolve(msg)
+          this.bot.removeListener(handler)
+          resolve(msg)
+        }, 400)
       }
       this.bot.on('messageCreate', handler)
     })
@@ -44,12 +48,16 @@ export default class UnitWorker {
   async awaitMessage () {
     return new Promise((resolve, reject) => {
       var handler = (msg) => {
-        if (msg.author.id === this.bot.user.id) {
-          return
-        }
+        // This is ugly, but discord may or may not process
+        // our messages in order. So we have to wait to be safe
+        setTimeout(() => {
+          if (msg.author.id === this.bot.user.id) {
+            return
+          }
 
-        this.bot.removeListener(handler)
-        resolve(msg)
+          this.bot.removeListener(handler)
+          resolve(msg)
+        }, 400)
       }
       this.bot.on('messageCreate', handler)
     })
@@ -58,12 +66,16 @@ export default class UnitWorker {
   async awaitEdit () {
     return new Promise((resolve, reject) => {
       var handler = (msg) => {
-        if (msg.author.id === this.bot.user.id) {
-          return
-        }
+        // This is ugly, but discord may or may not process
+        // our messages in order. So we have to wait to be safe
+        setTimeout(() => {
+          if (msg.author.id === this.bot.user.id) {
+            return
+          }
 
-        this.bot.removeListener(handler)
-        resolve(msg)
+          this.bot.removeListener(handler)
+          resolve(msg)
+        }, 400)
       }
       this.bot.on('messageUpdate', handler)
     })
