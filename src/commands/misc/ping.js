@@ -12,7 +12,7 @@ export default class PingCmd extends BaseCommand {
 
   action (msg, args) {
     this.bot.createMessage(msg.channel.id, ':ping_pong: Pong!').then(function (botMsg) {
-      botMsg.edit(`${botMsg.content} - **${botMsg.timestamp - msg.timestamp} ms** Shard: ${msg.channel.guild.shard.id} `)
+      botMsg.edit(`${botMsg.content} - **${botMsg.timestamp - msg.timestamp} ms Shard: ${msg.channel.guild.shard.id}**`)
     })
   }
 }

@@ -15,4 +15,15 @@ describe('Ping', () => {
     expect(msg.author.id).to.not.be.equal(worker.bot.user.id)
     expect(msg.content.indexOf('Pong') > 0).to.be.true()
   })
+
+  it('Should edit message to reflect ping', async () => {
+    const worker = new UnitWorker()
+    await worker.sendMsg('b!ping')
+    var msg = await worker.awaitEdit()
+
+    expect(msg.content).to.be.a('string')
+    expect(msg.content.indexOf('Pong') > 0).to.be.true()
+    expect(msg.content.indexOf(' ms ') > 0).to.be.true()
+    expect(msg.content.indexOf(' Shard: ') > 0).to.be.true()
+  })
 })
