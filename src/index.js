@@ -1,3 +1,7 @@
+import bluebird from 'bluebird'
+global.Promise = bluebird
+
+/* eslint-disable import/first */
 import Eris from 'eris'
 import chalk from 'chalk'
 import config from './config/config.js'
@@ -8,6 +12,8 @@ import { initPlayer } from './lib/lavalink/player'
 import redis from './data/redis.js'
 import metrics from './metrics'
 import Raven from 'raven'
+/* eslint-enable import/first */
+
 let _bot
 
 export async function connect () {
