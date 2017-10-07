@@ -23,7 +23,8 @@
     "raven": "^2.1.2",
     "sodium-native": "^1.10.1",
     "uws": "^8.14.0",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "yargs-parser": "^8.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
