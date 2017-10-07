@@ -8,7 +8,7 @@ export default class TargetedCommand extends BaseCommand {
     this.actionOnTarget = info.targetInfo.action
   }
 
-  async action (msg, args) {
+  async action (msg, args, parsedArgs) {
     const responder = new Responder(msg.channel)
     const targetSelector = new TargetSelector()
 
@@ -17,14 +17,23 @@ export default class TargetedCommand extends BaseCommand {
       return
     }
 
-    let target = await targetSelector.find(msg, args[0])
-    const reason = args[1] || ''
+    let target = await targetSelector.find(msg, parsedArgs._[0])
+
+    let reason
+    if (this.info.targetInfo.hasReason) {
+      reason = parsedArgs._[1] || parsedArgs.r || ''
+    }
+
     if (!target) {
       return
     }
 
     try {
-      await this.actionOnTarget(target, reason, responder)
+      if (this.info.targetInfo.hasReason) {
+        await this.actionOnTarget(target, reason, responder)
+      } else {
+        await this.actionOnTarget(target, responder)
+      }
     } catch (e) {
       const error = JSON.parse(e.response)
       responder.error(`Failed with error: ${error.code} - ${error.message} `)

@@ -12,18 +12,21 @@ function getMemberHighestRole (member, guild) {
                      }, { position: -1 })
 }
 
-async function parseParams (msg, args) {
+async function parseParams (msg, parsedArgs) {
   const empty = { member: undefined, role: undefined }
   const targetSelector = new TargetSelector()
-  const target = args[0]
+  const target = parsedArgs._[0]
 
-  delete args[0]
-  const roleName = args.join(' ').trim()
+  const roleName = parsedArgs._[1]
   const role = msg.channel.guild.roles.find((role) => role.name === roleName)
 
   if (!role) {
     const responder = new Responder(msg.channel)
-    await responder.error('Role not found').send()
+    responder.error('Role not found')
+    if (parsedArgs._.length > 2) {
+      responder.newline().italic('Tip: if the role name has spaces in it, enclose in `\'` or `"`.')
+    }
+    await responder.send().ttl(20)
     return empty
   }
 
@@ -87,13 +90,13 @@ class AddCmd extends BaseCommand {
     super(info, bot)
   }
 
-  async action (msg, args) {
+  async action (msg, args, parsedArgs) {
     const responder = new Responder(msg.channel)
 
     const {
       member,
       role
-    } = await parseParams(msg, args)
+    } = await parseParams(msg, parsedArgs)
 
     if (!member || !role) {
       return
@@ -137,13 +140,13 @@ class RemoveCmd extends BaseCommand {
     super(info, bot)
   }
 
-  async action (msg, args) {
+  async action (msg, args, parsedArgs) {
     const responder = new Responder(msg.channel)
 
     const {
       member,
       role
-    } = await parseParams(msg, args)
+    } = await parseParams(msg, parsedArgs)
 
     if (!member || !role) {
       return
