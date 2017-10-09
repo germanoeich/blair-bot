@@ -1,9 +1,18 @@
 {
-  "presets": [ "env" ],
+  "presets": [
+    ["env", {
+      "exclude":["transform-regenerator"]
+    }]
+  ],
   "plugins": [
-    ["transform-runtime", {
-      "polyfill": false,
-      "regenerator": true
+    ["fast-async", {
+      "spec":true
     }]
   ]
+  // "plugins": [
+  //   ["transform-runtime", {
+  //     "polyfill": false,
+  //     "regenerator": true
+  //   }]
+  // ]
 }

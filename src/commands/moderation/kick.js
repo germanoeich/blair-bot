@@ -21,7 +21,8 @@ export default class KickCmd extends TargetedCommand {
           responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was kicked from the server`).send()
         }
       },
-      mayPrompt: true
+      mayPrompt: true,
+      hasReason: true
     }
     super(info, bot)
   }

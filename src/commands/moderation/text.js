@@ -191,17 +191,24 @@ class BlockCmd extends BaseCommand {
     this.matchMessage(msg)
   }
 
-  async action (msg, args) {
+  async action (msg, args, parsedArgs) {
     const responder = new Responder(msg.channel)
 
-    if (args[0][0] === '!') {
+    if (parsedArgs._[0][0] === '!') {
       await responder.error('A block expression cannot start with !').send()
       return
     }
 
-    const exp = args.join(' ')
+    const exp = parsedArgs._[0]
     const guildId = msg.channel.guild.id
     const channelId = msg.channel.id
+
+    if (parsedArgs._.length > 1) {
+      await responder
+              .info('You provided an expression with spaces but didn\'t enclose it in quotes, please do and try again.')
+              .ttl(15).send()
+      return
+    }
 
     await this.redisClient.sadd(`text:block:${guildId}:${channelId}`, exp)
     await responder.success('Added channel text block').send()

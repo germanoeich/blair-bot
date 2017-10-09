@@ -3,7 +3,7 @@ import fun from './fun'
 import misc from './misc'
 import moderation from './moderation'
 import music from './music'
-// import help from './help'
+import HelpCmd from './help'
 
 export function registerCommands (bot) {
   exclusive.register(bot)
@@ -12,5 +12,8 @@ export function registerCommands (bot) {
   moderation.register(bot)
   music.register(bot)
 
-  // help.register(bot, [ping, pokedex, dice, inspiro, cat, kick, role])
+  var helpCmd = new HelpCmd(bot, [ exclusive, fun, misc, moderation, music ])
+  helpCmd.register()
+
+  misc.cmds.push(helpCmd)
 }

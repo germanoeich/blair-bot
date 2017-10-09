@@ -22,7 +22,7 @@ export default class PrefixCmd extends BaseCommand {
     this.redisClient = redis.connect()
   }
 
-  async action (msg, args) {
+  async action (msg, args, parsedArgs) {
     const responder = new Responder(msg.channel)
     try {
       const guild = msg.channel.guild
@@ -33,7 +33,7 @@ export default class PrefixCmd extends BaseCommand {
         return
       }
 
-      const newPrefix = args[0]
+      const newPrefix = parsedArgs._[0]
 
       this.bot.registerGuildPrefix(guild.id, [ '@mention ', newPrefix ])
 

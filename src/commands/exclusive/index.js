@@ -11,5 +11,6 @@ function register (bot) {
 // No category info because this won't show
 // in the help cmd
 export default {
-  register
+  register,
+  cmds
 }

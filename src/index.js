@@ -29,6 +29,8 @@ export async function connect () {
     // process.exit(1)
   })
 
+  process.on('unhandledRejection', e => Raven.captureException(e))
+
   const shardCount = (process.env.NODE_ENV !== 'test') ? 2 : 1
 
   _bot = new Eris.CommandClient(config.token, {
@@ -37,7 +39,7 @@ export async function connect () {
   }, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
-    // defaultHelpCommand: false,
+    defaultHelpCommand: false,
     defaultCommandOptions: cmdConfig.defaultCommandOptions,
     ignoreBots: process.env.NODE_ENV !== 'test'
   })
