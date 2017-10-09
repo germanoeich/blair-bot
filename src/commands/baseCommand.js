@@ -24,10 +24,11 @@ export default class BaseCommand {
       if (!integrity.canPrompt(msg.author)) {
         const responder = new Responder(msg.channel)
         responder.promptBlocked().ttl(10).send()
-        return
+        return false
       }
       integrity.startPrompt(msg.author)
     }
+    return true
   }
 
   endPrompt (msg) {
@@ -38,7 +39,9 @@ export default class BaseCommand {
 
   async baseAction (msg, args) {
     try {
-      this.startPrompt(msg)
+      if (!this.startPrompt(msg)) {
+        return
+      }
 
       var parsedArgs = parser(args.join(' '))
       await this.action(msg, args, parsedArgs)
