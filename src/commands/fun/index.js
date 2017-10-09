@@ -22,5 +22,6 @@ function register (bot) {
 
 export default {
   categoryName: 'Fun',
-  register
+  register,
+  cmds
 }

@@ -39,7 +39,7 @@ export async function connect () {
   }, {
     prefix: ['@mention ', 'b!'],
     owner: 'Gin#1913',
-    // defaultHelpCommand: false,
+    defaultHelpCommand: false,
     defaultCommandOptions: cmdConfig.defaultCommandOptions,
     ignoreBots: process.env.NODE_ENV !== 'test'
   })

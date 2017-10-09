@@ -32,24 +32,24 @@ export default class StatsCmd extends BaseCommand {
                           .format('d[d] h[h] mm[m] ss[s]', { trim: false })
 
       await responder.embed({
-        'color': parseInt('815FC0', 16),
-        'footer': {
-          'text': '♥'
+        color: parseInt('815FC0', 16),
+        footer: {
+          text: '♥'
         },
-        'fields': [
+        fields: [
           {
-            'name': 'CPU Usage',
-            'value': `${monit.cpu} %`,
-            'inline': true
+            name: 'CPU Usage',
+            value: `${monit.cpu} %`,
+            inline: true
           },
           {
-            'name': 'RAM Usage',
-            'value': `${monit.memory / 1024 / 1024} MB`,
-            'inline': true
+            name: 'RAM Usage',
+            value: `${monit.memory / 1024 / 1024} MB`,
+            inline: true
           },
           {
-            'name': 'Uptime',
-            'value': uptime
+            name: 'Uptime',
+            value: uptime
           }
         ]
       }).send()

@@ -18,5 +18,6 @@ function register (bot) {
 
 export default {
   categoryName: 'Moderation',
-  register
+  register,
+  cmds
 }
