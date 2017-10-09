@@ -20,7 +20,8 @@ export default class BanCmd extends TargetedCommand {
           await member.ban(reason)
           responder.success(`User ${member.user.username}#${member.user.discriminator} ( ${member.user.id} ) was banned from the server`).send()
         }
-      }
+      },
+      mayPrompt: true
     }
     super(info, bot)
   }

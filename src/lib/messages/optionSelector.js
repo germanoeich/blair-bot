@@ -19,12 +19,12 @@ export default class OptionSelector {
       if (responseMsg.content === 'cancel') {
         optionsMsg.delete()
         await responder.success('Prompt cancelled').ttl(10).send()
-        ret = 'cancel'
+        ret = { type: 'cancel' }
         break
       }
 
       if (responseMsg.content === 'all') {
-        ret = 'all'
+        ret = { type: 'all' }
         break
       }
 

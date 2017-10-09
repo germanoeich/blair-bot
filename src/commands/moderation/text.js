@@ -33,7 +33,14 @@ class RemoveBlockCmd extends BaseCommand {
       name: 'remove',
       usage: 'remove',
       description: 'Removes a rule',
-      fullDescription: 'Used to remove a rule or to remove all channel rules'
+      fullDescription: 'Used to remove a rule or to remove all channel rules',
+      requirements: {
+        permissions: {
+          'manageMessages': true
+        }
+      },
+      permissionMessage: 'You need the "Manage Messages" permission.',
+      mayPrompt: true
     }
     super(info, bot)
     this.redisClient = redis.connect()
@@ -65,11 +72,11 @@ class RemoveBlockCmd extends BaseCommand {
 
     var response = await optionSelector.queryUser(botMsg, true)
 
-    if (response === 'cancel') {
+    if (response.type === 'cancel') {
       return
     }
 
-    if (response === 'all') {
+    if (response.type === 'all') {
       this.redisClient.del(keyIdentifier)
       responder.success('Succesfully deleted all rules for this channel').send()
     } else {

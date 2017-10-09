@@ -1,6 +1,5 @@
 import Responder from './../messages/responder'
 import DeleteQueue from './../messages/deleteQueue'
-import integrity from './../internal/integrity'
 
 class TargetSelector {
   async find (msg, arg) {
@@ -32,15 +31,6 @@ class TargetSelector {
         resolve(probableMatches[0])
         return
       }
-
-      if (!integrity.canPrompt(msg.author)) {
-        await responder
-        .promptBlocked()
-        .send()
-        return
-      }
-
-      integrity.startPrompt(msg.author)
 
       let options = ''
       probableMatches.forEach((value, index) => {
@@ -97,8 +87,6 @@ class TargetSelector {
           reject(err)
         }
       }
-
-      integrity.endPrompt(msg.author)
     })
   }
 }

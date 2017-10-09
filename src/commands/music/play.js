@@ -1,6 +1,7 @@
 import BaseCommand from './../baseCommand'
 import player from './../../lib/lavalink/player'
 import Responder from './../../lib/messages/responder'
+import OptionSelector from './../../lib/messages/optionSelector'
 import validUrl from 'valid-url'
 
 export default class PlayCmd extends BaseCommand {
@@ -11,7 +12,8 @@ export default class PlayCmd extends BaseCommand {
       argsRequired: true,
       description: 'Play/search track',
       fullDescription: 'Play or search for and play a track',
-      invalidUsageMessage: 'Specify an url or query'
+      invalidUsageMessage: 'Specify an url or query',
+      mayPrompt: true
     }
     super(info, bot)
   }
@@ -38,7 +40,24 @@ export default class PlayCmd extends BaseCommand {
 
     let choosenTrack = tracks[0]
     if (tracks.length > 1) {
-      // handle multiple results here
+      responder.info(`Choose a song (or type cancel to exit)`)
+             .newline()
+             .codeStart('', 'Haskell')
+
+      for (var i = 0; i < tracks.length; i++) {
+        responder.text(`[${i}] ${tracks[i].info.title}`).newline()
+      }
+
+      const botMsg = await responder.codeEnd('').send()
+      const optionSelector = new OptionSelector(msg, tracks)
+
+      var response = await optionSelector.queryUser(botMsg)
+
+      if (response.type === 'cancel') {
+        return
+      }
+
+      choosenTrack = response
     }
 
     var p = await player.get(msg, true)
