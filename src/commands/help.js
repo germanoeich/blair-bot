@@ -32,14 +32,27 @@ export default class HelpCmd extends BaseCommand {
       fields: []
     }
 
-    embed.fields = this.categories.filter((element) => !!element.categoryName).map((element) => {
-      return {
-        name: element.categoryName,
-        value: element.cmds.map((cmd) => {
-          return `\`${cmd.info.name}\``
-        }).join(', ')
-      }
-    })
+    if (parsedArgs.a) {
+      embed.fields = this.categories.filter((element) => !!element.categoryName).map((element) => {
+        return {
+          name: `__${element.categoryName}__`,
+          value: element.cmds.map((cmd) => {
+            return `**${cmd.info.name}${cmd.info.aliases ? ` | ${cmd.info.aliases.join(' | ')}` : ''}** - ${cmd.info.description}\n`
+          }).join('')
+        }
+      })
+
+      embed.footer = undefined
+    } else {
+      embed.fields = this.categories.filter((element) => !!element.categoryName).map((element) => {
+        return {
+          name: element.categoryName,
+          value: element.cmds.map((cmd) => {
+            return `\`${cmd.info.name}\``
+          }).join(', ')
+        }
+      })
+    }
 
     await responder.embed(embed).send()
   }
