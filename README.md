@@ -1,4 +1,4 @@
-[![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot) [![Build Status](https://travis-ci.org/germanoeich/blair-bot.svg?branch=master)](https://travis-ci.org/germanoeich/blair-bot)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Build Status](https://travis-ci.org/germanoeich/blair-bot.svg?branch=master)](https://travis-ci.org/germanoeich/blair-bot) [![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot)
 
 # Blair
 
