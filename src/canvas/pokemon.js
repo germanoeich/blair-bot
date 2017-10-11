@@ -1,5 +1,4 @@
 import Canvas from 'canvas'
-import chalk from 'chalk'
 import { capitalizeName } from './../util/pokemon-names'
 import CanvasHelper from './../lib/canvas'
 
@@ -24,8 +23,6 @@ export async function renderImage (pokeinfo) {
 }
 
 async function drawPokemonBlock (pokeinfo, ctx) {
-  console.log(chalk.green(`Drawing ${chalk.white.bgGreen(pokeinfo.name)} block`))
-
   const rects = [{
     x: padding,
     y: padding,

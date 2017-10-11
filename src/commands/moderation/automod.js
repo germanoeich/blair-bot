@@ -4,11 +4,11 @@ import OptionSelector from './../../lib/messages/optionSelector'
 import redis from './../../data/redis'
 import matcher from 'matcher'
 
-export default class TextCmd extends BaseCommand {
+export default class AutomodCmd extends BaseCommand {
   constructor (bot) {
     const info = {
-      name: 'text',
-      usage: '<block|list|remove> [expression]',
+      name: 'automod',
+      usage: '<block> [expression] | <list|remove>',
       argsRequired: true,
       description: 'Text management command',
       fullDescription: 'Text management command to block or transfer text to the proper channels',
