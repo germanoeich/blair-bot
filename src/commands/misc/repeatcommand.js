@@ -11,17 +11,22 @@ export default class RepeatCommandCmd extends BaseCommand {
     super(info, bot)
   }
 
+  async baseAction (msg, args) {
+    console.log('rc baseAction')
+    return this.action(msg, args)
+  }
+
   async action (msg, args) {
     const hashKey = `last_cmd:${msg.channel.guild.id}:${msg.author.id}`
     const hashObj = await this.redisClient.hgetall(hashKey)
-    console.log(hashObj)
     const cmdChain = hashObj.cmds.split(',')
-    console.log(cmdChain)
+
     let cmd = this.bot.commands[cmdChain[0]]
     for (let i = 1; i < cmdChain.length; i++) {
       cmd = cmd.subcommands[cmdChain[i]]
     }
 
+    msg.command = cmd
     return cmd.execute(msg, hashObj.args.split(' '))
   }
 }

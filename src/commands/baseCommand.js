@@ -57,6 +57,7 @@ export default class BaseCommand {
   }
 
   async baseAction (msg, args) {
+    let ret = ''
     try {
       if (!this.startPrompt(msg)) {
         return
@@ -75,7 +76,8 @@ export default class BaseCommand {
         }
       })
 
-      await this.action(msg, args, parsedArgs)
+      ret = await this.action(msg, args, parsedArgs)
+
       this.setLastCommand(msg, joinedArgs)
 
       if (parsedArgs.d) {
@@ -87,6 +89,7 @@ export default class BaseCommand {
       this.endPrompt(msg)
       throw e
     }
+    return ret
   }
 
   register () {
