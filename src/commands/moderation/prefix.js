@@ -15,7 +15,8 @@ export default class PrefixCmd extends BaseCommand {
           'administrator': true
         }
       },
-      permissionMessage: 'You need to be an administrator to set this.'
+      permissionMessage: 'You need to be an administrator to set this.',
+      guildOnly: true
     }
     super(info, bot)
 

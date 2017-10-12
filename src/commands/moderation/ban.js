@@ -13,6 +13,7 @@ export default class BanCmd extends TargetedCommand {
           'banMembers': true
         }
       },
+      guildOnly: true,
       permissionMessage: 'You need the "Ban Members" permission.',
       invalidUsageMessage: 'Specify a target',
       targetInfo: {

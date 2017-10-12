@@ -18,7 +18,8 @@ export default class AutomodCmd extends BaseCommand {
         }
       },
       permissionMessage: 'You need the "Manage Messages" permission.',
-      invalidUsageMessage: 'Specify an operation'
+      invalidUsageMessage: 'Specify an operation',
+      guildOnly: true
     }
     super(info, bot)
     this.addSubCommand(new BlockCmd(bot))

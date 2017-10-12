@@ -7,7 +7,8 @@ export default class StopCmd extends BaseCommand {
     const info = {
       name: 'stop',
       description: 'Stop the current song',
-      fullDescription: 'Used to Stop the current song'
+      fullDescription: 'Used to Stop the current song',
+      guildOnly: true
     }
     super(info, bot)
   }

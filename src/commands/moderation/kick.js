@@ -13,6 +13,7 @@ export default class KickCmd extends TargetedCommand {
           'kickMembers': true
         }
       },
+      guildOnly: true,
       permissionMessage: 'You need the "Kick Members" permission.',
       invalidUsageMessage: 'Specify a target',
       targetInfo: {

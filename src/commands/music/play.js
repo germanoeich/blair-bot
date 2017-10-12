@@ -13,6 +13,7 @@ export default class PlayCmd extends BaseCommand {
       description: 'Play/search track',
       fullDescription: 'Play or search for and play a track',
       invalidUsageMessage: 'Specify an url or query',
+      guildOnly: true,
       mayPrompt: true
     }
     super(info, bot)

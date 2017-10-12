@@ -63,7 +63,8 @@ export default class RoleCmd extends BaseCommand {
         }
       },
       permissionMessage: 'You need the "Manage Roles" permission.',
-      invalidUsageMessage: 'Specify an operation, target and a role'
+      invalidUsageMessage: 'Specify an operation, target and a role',
+      guildOnly: true
     }
     super(info, bot)
     this.addSubCommand(new AddCmd(bot))
