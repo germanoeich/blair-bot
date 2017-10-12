@@ -43,7 +43,17 @@ export default class BaseCommand {
         return
       }
 
-      var parsedArgs = parser(args.join(' '))
+      var parsedArgs = parser(args.join(' '), {
+        configuration: {
+          'short-option-groups': false,
+          'dot-notation': false,
+          'duplicate-arguments-array': false,
+          'flatten-duplicate-arrays': false,
+          // I may come back and change this to true.
+          // But for now, things can be simple
+          'boolean-negation': false
+        }
+      })
       await this.action(msg, args, parsedArgs)
 
       if (parsedArgs.d) {
