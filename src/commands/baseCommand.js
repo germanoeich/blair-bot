@@ -1,6 +1,7 @@
 import integrity from './../lib/internal/integrity'
 import Responder from './../lib/messages/responder'
 import parser from 'yargs-parser'
+import redis from './../data/redis'
 
 export default class BaseCommand {
   constructor (info, commandClient) {
@@ -13,6 +14,7 @@ export default class BaseCommand {
     }
 
     this.subcommands = []
+    this.redisClient = redis.connect()
   }
 
   addSubCommand (obj) {
@@ -37,13 +39,31 @@ export default class BaseCommand {
     }
   }
 
+  setLastCommand (msg, joinedArgs) {
+    const hashKey = `last_cmd:${msg.channel.guild.id}:${msg.author.id}`
+    const cmdChain = []
+    let currCmd = msg.command
+    do {
+      cmdChain.push(currCmd.label)
+      if (!currCmd.parentCommand) {
+        break
+      }
+      currCmd = currCmd.parentCommand
+    }
+    while (true)
+
+    cmdChain.reverse()
+    this.redisClient.hset(hashKey, 'cmds', cmdChain.join(','), 'args', joinedArgs)
+  }
+
   async baseAction (msg, args) {
     try {
       if (!this.startPrompt(msg)) {
         return
       }
 
-      var parsedArgs = parser(args.join(' '), {
+      const joinedArgs = args.join(' ')
+      const parsedArgs = parser(joinedArgs, {
         configuration: {
           'short-option-groups': false,
           'dot-notation': false,
@@ -54,7 +74,9 @@ export default class BaseCommand {
           'boolean-negation': false
         }
       })
+
       await this.action(msg, args, parsedArgs)
+      this.setLastCommand(msg, joinedArgs)
 
       if (parsedArgs.d) {
         msg.delete('Trigerred by -d flag').catch(() => {})

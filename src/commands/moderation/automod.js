@@ -1,7 +1,6 @@
 import BaseCommand from './../baseCommand'
 import Responder from './../../lib/messages/responder'
 import OptionSelector from './../../lib/messages/optionSelector'
-import redis from './../../data/redis'
 import matcher from 'matcher'
 
 export default class AutomodCmd extends BaseCommand {
@@ -44,7 +43,6 @@ class RemoveBlockCmd extends BaseCommand {
       mayPrompt: true
     }
     super(info, bot)
-    this.redisClient = redis.connect()
   }
 
   async action (msg, args) {
@@ -96,7 +94,6 @@ class ListCmd extends BaseCommand {
       fullDescription: 'List all text rules'
     }
     super(info, bot)
-    this.redisClient = redis.connect()
   }
 
   async action (msg, args) {
@@ -149,8 +146,6 @@ class BlockCmd extends BaseCommand {
 
     bot.on('messageCreate', this.handleMessageCreate)
     bot.on('messageUpdate', this.handleMessageUpdate)
-
-    this.redisClient = redis.connect()
   }
 
   async matchMessage (msg) {

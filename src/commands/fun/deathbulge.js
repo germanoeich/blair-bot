@@ -1,5 +1,4 @@
 import FetchCommand from './../fetchCommand'
-import redis from './../../data/redis'
 
 export default class DeathBulgeCmd extends FetchCommand {
   constructor (bot) {
@@ -19,8 +18,6 @@ export default class DeathBulgeCmd extends FetchCommand {
       argsRequired: false
     }
     super(info, bot)
-
-    this.redisClient = redis.connect()
   }
 
   async action (msg, args) {

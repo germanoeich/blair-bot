@@ -1,4 +1,3 @@
-import redis from './../../data/redis'
 import Responder from './../../lib/messages/responder'
 import BaseCommand from './../baseCommand'
 
@@ -19,8 +18,6 @@ export default class PrefixCmd extends BaseCommand {
       guildOnly: true
     }
     super(info, bot)
-
-    this.redisClient = redis.connect()
   }
 
   async action (msg, args, parsedArgs) {
