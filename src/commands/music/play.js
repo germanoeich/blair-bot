@@ -20,7 +20,7 @@ export default class PlayCmd extends BaseCommand {
   }
 
   async action (msg, args) {
-    var responder = new Responder(msg.channel)
+    const responder = new Responder(msg.channel)
 
     if (!msg.member.voiceState.channelID) {
       responder.error('Join a voice channel to start playing', 10).send()

@@ -14,9 +14,9 @@ export default class StopCmd extends BaseCommand {
   }
 
   async action (msg, args) {
-    var responder = new Responder(msg.channel)
+    const responder = new Responder(msg.channel)
 
-    var p = await player.get(msg)
+    const p = await player.get(msg)
 
     if (!p || !p.playing) {
       responder.error('Bot is not playing anything', 10).send()
