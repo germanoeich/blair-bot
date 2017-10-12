@@ -23,7 +23,11 @@ export async function searchTracks (search, ytsearch = false) {
   if (!result) {
     throw new Error('Unable to play that video.')
   }
-  // console.log(result)
+
+  if (search === 'https://listen.moe/stream') {
+    result[0].info.title = 'listen.moe radio'
+  }
+
   return result // array of tracks resolved from lavalink
 }
 
