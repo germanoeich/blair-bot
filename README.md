@@ -1,4 +1,4 @@
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Build Status](https://travis-ci.org/germanoeich/blair-bot.svg?branch=master)](https://travis-ci.org/germanoeich/blair-bot) [![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Build Status](https://travis-ci.org/germanoeich/blair-bot.svg?branch=master)](https://travis-ci.org/germanoeich/blair-bot) [![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot) [![Maintainability](https://api.codeclimate.com/v1/badges/aa55dbaefe2920ad2eca/maintainability)](https://codeclimate.com/github/germanoeich/blair-bot/maintainability)
 
 # Blair
 
