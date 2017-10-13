@@ -53,6 +53,7 @@ class TargetSelector {
 
           if (response.content === 'cancel') {
             await responder.success('Prompt cancelled').ttl(10).send()
+            resolve(false)
             break
           }
 

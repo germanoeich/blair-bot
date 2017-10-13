@@ -24,8 +24,6 @@ export default class TargetedCommand extends BaseCommand {
       reason = parsedArgs._[1] || parsedArgs.r || ''
     }
 
-    console.log(reason)
-
     if (!target) {
       return
     }
@@ -45,6 +43,6 @@ export default class TargetedCommand extends BaseCommand {
       }
     }
 
-    responder.send()
+    return responder.send()
   }
 }
