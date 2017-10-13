@@ -89,7 +89,10 @@ export default class BaseCommand {
       this.endPrompt(msg)
       throw e
     }
-    return ret
+
+    if (typeof ret === 'string') {
+      return ret
+    }
   }
 
   register () {

@@ -29,7 +29,10 @@ export async function connect () {
     // process.exit(1)
   })
 
-  process.on('unhandledRejection', e => Raven.captureException(e))
+  process.on('unhandledRejection', e => {
+    console.error(e)
+    Raven.captureException(e)
+  })
 
   const shardCount = (process.env.NODE_ENV !== 'test') ? 2 : 1
 

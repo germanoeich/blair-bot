@@ -66,7 +66,6 @@ export default class HelpCmd extends BaseCommand {
           }
         })
       }
-
       return responder.embed(embed).send()
     } else {
       const cmdName = parsedArgs._[0]

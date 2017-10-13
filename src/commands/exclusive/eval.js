@@ -35,6 +35,7 @@ export class EvalCmd extends BaseCommand {
 
       // Any errors here are my fault
       responder.error('exception! lol fix ur code', 5).send()
+      console.log(e)
       return
     }
 
