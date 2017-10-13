@@ -4,6 +4,7 @@ export default class CatFactsCmd extends FetchCommand {
   constructor (bot) {
     const info = {
       name: 'catfacts',
+      usage: 'catfacts',
       description: 'Shows a random Cat Fact',
       fullDescription: 'Shows a random Cat Fact',
       aliases: ['catfact'],

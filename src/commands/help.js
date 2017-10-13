@@ -5,8 +5,9 @@ export default class HelpCmd extends BaseCommand {
   constructor (bot, categories) {
     const info = {
       name: 'help',
+      usage: 'help [command] [-f] [-c <category_name>]',
       description: 'Get\'s help about the bot',
-      fullDescription: 'Provides a short list of commands or a full list via DM if the flag -a is included'
+      fullDescription: 'Provides a short list of commands or a full list via DM if the flag -f is included'
     }
     super(info, bot)
     this.categories = categories
@@ -14,6 +15,7 @@ export default class HelpCmd extends BaseCommand {
     categories.forEach((c) => {
       this.allCmds = [ ...this.allCmds, ...c.cmds ]
     })
+    this.allCmds.push(this)
   }
 
   async action (msg, args, parsedArgs) {
@@ -83,6 +85,9 @@ export default class HelpCmd extends BaseCommand {
           name: 'Blair',
           url: 'https://blairbot.me',
           icon_url: 'https://cdn.discordapp.com/avatars/358403319523180544/837fafe1f4a2ed5242b1025a18e05d37.png'
+        },
+        footer: {
+          text: 'Tip: Arguments surrounded by [] are optional. Ones surrounded by <> are required. | means "or". All arguments with whitespaces must be surrounded by single(\') or double (") quotes.'
         },
         fields: [
           {

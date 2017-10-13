@@ -4,6 +4,7 @@ export default class InspiroCmd extends FetchCommand {
   constructor (bot) {
     const info = {
       name: 'inspiro',
+      usage: 'inspiro',
       description: 'fetch a inspirobot image',
       fullDescription: 'fetch a inspirobot image',
       aliases: ['inspirobot'],

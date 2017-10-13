@@ -4,6 +4,7 @@ export default class RepeatCommandCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'repeatcommand',
+      usage: 'repeatcommand',
       description: 'Repeats your last command',
       fullDescription: 'Repeats the last command you used in this guild. Shorthand "rc" is also available',
       aliases: ['rc']

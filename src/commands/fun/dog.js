@@ -4,6 +4,7 @@ export default class DogCmd extends FetchCommand {
   constructor (bot) {
     const info = {
       name: 'dog',
+      usage: 'dog',
       description: 'fetch a random dog image',
       fullDescription: 'fetch a random dog image',
       aliases: ['woof'],

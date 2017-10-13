@@ -4,7 +4,7 @@ export default class DiceCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'dice',
-      usage: '[Number Of Sides] [Number Of Dices]',
+      usage: 'dice [dice side count] [dices to throw]',
       description: 'Rolls a number',
       fullDescription: 'Rolls a number. Args defaults to 6 sides and 1 dice'
     }

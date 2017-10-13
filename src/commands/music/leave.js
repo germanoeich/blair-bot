@@ -6,6 +6,7 @@ export default class LeaveCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'leave',
+      usage: 'leave',
       description: 'Makes the bot leave the voice channel',
       fullDescription: 'Makes the bot leave the voice channel it\'s currently in',
       guildOnly: true

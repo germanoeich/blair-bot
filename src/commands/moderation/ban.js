@@ -4,10 +4,10 @@ export default class BanCmd extends TargetedCommand {
   constructor (bot) {
     const info = {
       name: 'ban',
-      usage: '<Username | Userid | User Mention> [Reason] - target selector capable',
+      usage: 'ban <username | userid | user mention> [reason]',
       argsRequired: true,
       description: 'Bans someone from the server.',
-      fullDescription: 'Bans someone from the server.',
+      fullDescription: 'Bans someone from the server. Blair will prompt you to choose the right person to ban if multiple matches are found.',
       requirements: {
         permissions: {
           'banMembers': true

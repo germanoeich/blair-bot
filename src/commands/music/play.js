@@ -8,10 +8,10 @@ export default class PlayCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'play',
-      usage: '<url|query>',
+      usage: 'play <url|query>',
       argsRequired: true,
       description: 'Play/search track',
-      fullDescription: 'Play or search for and play a track',
+      fullDescription: 'Plays a track or search for a track on youtube. If the command input is a text, Blair will search for the song. Otherwise if it\'s a link, Blair will play it right away',
       invalidUsageMessage: 'Specify an url or query',
       guildOnly: true,
       mayPrompt: true

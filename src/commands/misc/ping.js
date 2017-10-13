@@ -4,6 +4,7 @@ export default class PingCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'ping',
+      usage: 'ping',
       description: 'Pong!',
       fullDescription: 'Used to check bot latency and if it\'s online'
     }

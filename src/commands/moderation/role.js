@@ -53,10 +53,10 @@ export default class RoleCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'role',
-      usage: '<add|remove> <user> <role>',
+      usage: 'role <add|remove> <user> <role>',
       argsRequired: true,
       description: 'Add/remove user roles.',
-      fullDescription: 'Add/remove user roles.',
+      fullDescription: 'Adds or removes a role from a user.',
       requirements: {
         permissions: {
           'manageRoles': true
@@ -76,10 +76,10 @@ class AddCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'add',
-      usage: '<user> <role>',
+      usage: 'add <user> <role>',
       argsRequired: true,
-      description: 'Add user roles.',
-      fullDescription: 'Add user roles.',
+      description: 'Adds a role to an user',
+      fullDescription: 'Adds the specified role to the specified user. If they already have that role, Blair will throw an error and do nothing.',
       requirements: {
         permissions: {
           'manageRoles': true
@@ -126,10 +126,10 @@ class RemoveCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'remove',
-      usage: '<user> <role>',
+      usage: 'remove <user> <role>',
       argsRequired: true,
-      description: 'Remove user roles.',
-      fullDescription: 'Remove user roles.',
+      description: 'Removes a role from an user.',
+      fullDescription: 'Removes the specified role from the specified user. If they are not assigned to that role, Blair will throw an error and do nothing.',
       requirements: {
         permissions: {
           'manageRoles': true

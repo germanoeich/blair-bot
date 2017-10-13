@@ -6,8 +6,9 @@ export default class JoinCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'join',
-      description: 'Makes the bot join the voice channel',
-      fullDescription: 'Makes the bot join the voice channel it\'s currently in',
+      usage: 'join',
+      description: 'Makes the bot join the voice channel you are in',
+      fullDescription: 'Makes the bot join the voice channel you are currently in',
       guildOnly: true
     }
     super(info, bot)

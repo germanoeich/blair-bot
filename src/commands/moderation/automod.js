@@ -7,10 +7,10 @@ export default class AutomodCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'automod',
-      usage: '<block> [expression] | <list|remove>',
+      usage: 'block <expression> | list|remove',
       argsRequired: true,
-      description: 'Text management command',
-      fullDescription: 'Text management command to block or transfer text to the proper channels',
+      description: 'Sets/Lists/Removes channel text rules',
+      fullDescription: 'Sets a block rule for a given expression, lists blocks rules or removes them',
       requirements: {
         permissions: {
           'manageMessages': true
@@ -32,8 +32,8 @@ class RemoveBlockCmd extends BaseCommand {
     const info = {
       name: 'remove',
       usage: 'remove',
-      description: 'Removes a rule',
-      fullDescription: 'Used to remove a rule or to remove all channel rules',
+      description: 'Removes a text block',
+      fullDescription: 'Used to remove text blocks. This command has no arguments, and will prompt you for rule selection',
       requirements: {
         permissions: {
           'manageMessages': true
@@ -90,8 +90,8 @@ class ListCmd extends BaseCommand {
     const info = {
       name: 'list',
       usage: 'list',
-      description: 'List all text rules',
-      fullDescription: 'List all text rules'
+      description: 'Lists text blocks',
+      fullDescription: 'Lists all text blocks for the channel'
     }
     super(info, bot)
   }
@@ -114,7 +114,7 @@ class ListCmd extends BaseCommand {
              .codeStart('', 'Haskell')
 
     for (var i = 0; i < keys.length; i++) {
-      responder.text(`[${i}] ${keys[i]}`).newline()
+      responder.text(`${keys[i]}`).newline()
     }
 
     await responder.codeEnd('').send()
@@ -126,10 +126,17 @@ class BlockCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'block',
-      usage: 'block <expression>',
+      usage: 'block "<expression>"',
       argsRequired: true,
-      description: 'Blocks (deletes and warn user) a message',
-      fullDescription: 'Blocks (deletes and warn user) a message based on the Expression provided. Expressions are text with wildcards ( * )',
+      description: 'Sets a text block for the channel',
+      fullDescription:
+      'Creates a new text block rule for the channel, based on the provided Expression.\n' +
+      'Expressions are matched based on wildcards:\n' +
+      '`block "rip"`\nWill only delete messages that ONLY contain the text "rip".\n' +
+      '`block "*rip*"\nWill delete all messages that contain "rip" in them. But will also delete a message with the word "ripped" in it.\n' +
+      '`block "* rip *"\nWill delete only messages containing the word "rip".\n' +
+      'If the block rule contains whitespaces in it, you need to wrap the expression in double or single quotes\n' +
+      'Expressions can\'t start with "!"',
       requirements: {
         permissions: {
           'manageMessages': true

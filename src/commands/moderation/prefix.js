@@ -5,16 +5,16 @@ export default class PrefixCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'prefix',
-      usage: '<prefix>',
-      description: 'Changes the bot prefix.',
-      fullDescription: 'Changes the bot prefix.',
+      usage: 'prefix [prefix]',
+      description: 'Sets or shows the current guild prefix for Blair.',
+      fullDescription: 'If invoked without arguments, Blair will display the current prefix. If an argument is provided, the prefix will be set to the provided argument',
       caseInsensitive: true,
       requirements: {
         permissions: {
-          'administrator': true
+          'manageGuild': true
         }
       },
-      permissionMessage: 'You need to be an administrator to set this.',
+      permissionMessage: 'You need the "Manage Guild" permission to set this.',
       guildOnly: true
     }
     super(info, bot)

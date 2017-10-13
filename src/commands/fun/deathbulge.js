@@ -4,9 +4,9 @@ export default class DeathBulgeCmd extends FetchCommand {
   constructor (bot) {
     const info = {
       name: 'deathbulge',
-      usage: '[comic_id] | last - Leave empty for random comic, last for latest comic',
+      usage: '[comic_id | last]',
       description: 'Shows a Death Bulge comic.',
-      fullDescription: 'Shows a Death Bulge comic.',
+      fullDescription: 'Shows a Death Bulge comic. Provide no arguments for a random comic.',
       aliases: ['dbulge', 'deathb'],
       fetchInfo: {
         url: 'http://deathbulge.com/api/comics/',

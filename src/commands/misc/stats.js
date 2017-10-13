@@ -9,8 +9,9 @@ export default class StatsCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'stats',
+      usage: 'stats',
       description: 'Show bot stats',
-      fullDescription: 'Show bot stats'
+      fullDescription: 'Show bot stats. Only cool if you\'re a geek.'
     }
     super(info, bot)
   }

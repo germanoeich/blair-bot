@@ -10,7 +10,7 @@ export default class PokemonCmd extends BaseCommand {
   constructor (bot) {
     const info = {
       name: 'pokemon',
-      usage: '<Id | Name>',
+      usage: 'pokemon <id | name>',
       description: 'generates an image with pokemon info',
       fullDescription: 'generates an image with pokemon info',
       aliases: ['pokedex'],
