@@ -12,7 +12,6 @@ export default class RepeatCommandCmd extends BaseCommand {
   }
 
   async baseAction (msg, args) {
-    console.log('rc baseAction')
     return this.action(msg, args)
   }
 
