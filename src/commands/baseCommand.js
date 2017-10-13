@@ -56,7 +56,26 @@ export default class BaseCommand {
     this.redisClient.hset(hashKey, 'cmds', cmdChain.join(','), 'args', joinedArgs)
   }
 
+  async checkCommandDisabled (msg) {
+    const disabledChannels = await this.redisClient.smembers(`cmd_disable:${msg.channel.guild.id}:${this.info.name}`)
+
+    if (disabledChannels.length === 0) {
+      return false
+    }
+
+    if (disabledChannels.includes(msg.channel.id)) {
+      return true
+    }
+
+    return false
+  }
+
   async baseAction (msg, args) {
+    const isDisabled = await this.checkCommandDisabled(msg)
+    if (isDisabled) {
+      return
+    }
+
     let ret = ''
     try {
       if (!this.startPrompt(msg)) {
