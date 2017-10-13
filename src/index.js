@@ -12,11 +12,14 @@ import { initPlayer } from './lib/lavalink/player'
 import redis from './data/redis.js'
 import metrics from './metrics'
 import Raven from 'raven'
+import blocked from 'blocked-at'
 /* eslint-enable import/first */
 
 let _bot
 
 export async function connect () {
+  blocked((t, stack) => console.warn(`Blocked for [${t}]\n${stack}`))
+
   Raven.config(config.sentry.dsn, {
     environment: process.env.NODE_ENV,
     release: config.sentry.release

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "blocked-at": "^1.0.3",
     "bluebird": "^3.5.1",
     "bufferutil": "^3.0.1",
     "canvas": "^1.6.6",
