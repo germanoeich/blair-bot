@@ -4,6 +4,7 @@ import RoleCmd from './role'
 import PrefixCmd from './prefix'
 import AutomodCmd from './automod'
 import DisableCmd from './disable'
+import EnableCmd from './enable'
 
 const cmds = []
 
@@ -14,6 +15,7 @@ function register (bot) {
   cmds.push(new KickCmd(bot))
   cmds.push(new BanCmd(bot))
   cmds.push(new DisableCmd(bot))
+  cmds.push(new EnableCmd(bot))
 
   cmds.forEach((cmd) => cmd.register())
 }

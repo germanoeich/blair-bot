@@ -1,13 +1,13 @@
 import BaseCommand from './../baseCommand'
 import Responder from './../../lib/messages/responder'
 
-export default class DisableCmd extends BaseCommand {
+export default class EnableCmd extends BaseCommand {
   constructor (bot) {
     const info = {
-      name: 'disable',
-      usage: 'disable <command> [guild|channel]',
-      description: 'Disables a command',
-      fullDescription: 'Disables a command',
+      name: 'enable',
+      usage: 'enable <command> [guild|channel]',
+      description: 'Enables a command',
+      fullDescription: 'Enables a command',
       argsRequired: true,
       requirements: {
         permissions: {
@@ -33,14 +33,17 @@ export default class DisableCmd extends BaseCommand {
       return responder.error(`${parsedArgs._[1]} is not a valid scope. Use "guild" or "channel"`, 10).send()
     }
 
-    let channelIds = [msg.channel.id]
-    let scope = '**channel**'
+    var redisKey = `cmd_disable:${msg.channel.guild.id}:${cmdName}`
+
+    let scope
     if (parsedArgs._[1] === 'guild') {
-      channelIds = msg.channel.guild.channels.filter((c) => c.type === 0).map((c) => c.id)
+      await this.redisClient.del(redisKey)
       scope = '**guild**'
+    } else {
+      await this.redisClient.srem(redisKey, msg.channel.id)
+      scope = '**channel**'
     }
 
-    await this.redisClient.sadd(`cmd_disable:${msg.channel.guild.id}:${cmdName}`, ...channelIds)
-    return responder.success(`Succesfully disabled command ${cmdName} on this ${scope}`).send()
+    return responder.success(`Succesfully enabled command ${cmdName} on this ${scope}`).send()
   }
 }
