@@ -3,6 +3,7 @@ import fun from './fun'
 import misc from './misc'
 import moderation from './moderation'
 import music from './music'
+import images from './images'
 import HelpCmd from './help'
 
 const categories = []
@@ -14,6 +15,7 @@ export function registerCommands (bot) {
   misc.register(bot)
   moderation.register(bot)
   music.register(bot)
+  images.register(bot)
 
   var helpCmd = new HelpCmd(bot, categories)
   helpCmd.register()
