@@ -18,7 +18,9 @@ import blocked from 'blocked-at'
 let _bot
 
 export async function connect () {
-  blocked((t, stack) => console.warn(`Blocked for [${t}]\n${stack}`))
+  if (process.env.NODE_ENV !== 'test') {
+    blocked((t, stack) => console.warn(`Blocked for [${t}]\n${stack}`))
+  }
 
   Raven.config(config.sentry.dsn, {
     environment: process.env.NODE_ENV,
