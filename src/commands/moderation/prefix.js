@@ -9,12 +9,6 @@ export default class PrefixCmd extends BaseCommand {
       description: 'Sets or shows the current guild prefix for Blair.',
       fullDescription: 'If invoked without arguments, Blair will display the current prefix. If an argument is provided, the prefix will be set to the provided argument',
       caseInsensitive: true,
-      requirements: {
-        permissions: {
-          'manageGuild': true
-        }
-      },
-      permissionMessage: 'You need the "Manage Guild" permission to set this.',
       guildOnly: true
     }
     super(info, bot)
@@ -27,8 +21,11 @@ export default class PrefixCmd extends BaseCommand {
 
       if (args.length === 0) {
         const prefix = await this.redisClient.get(`guild_prefix:${guild.id}`) || 'b!'
-        responder.info(`The prefix for this guild is ${prefix}`).send()
-        return
+        return responder.info(`The prefix for this guild is ${prefix}`).send()
+      }
+
+      if (!msg.member.permissions.has('manageGuild')) {
+        return responder.error('You need the "Manage Guild" permission to set this.', 10).send()
       }
 
       const newPrefix = parsedArgs._[0]
