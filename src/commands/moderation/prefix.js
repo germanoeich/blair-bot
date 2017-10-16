@@ -24,7 +24,7 @@ export default class PrefixCmd extends BaseCommand {
         return responder.info(`The prefix for this guild is ${prefix}`).send()
       }
 
-      if (!msg.member.permissions.has('manageGuild')) {
+      if (!msg.member.permission.has('manageGuild')) {
         return responder.error('You need the "Manage Guild" permission to set this.', 10).send()
       }
 

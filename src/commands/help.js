@@ -46,8 +46,9 @@ export default class HelpCmd extends BaseCommand {
         },
         fields: []
       }
-
+      let channelId = msg.channel.id
       if (parsedArgs.f) {
+        channelId = (await msg.author.getDMChannel()).id
         embed.fields = categories.map((element) => {
           return {
             name: `__${element.categoryName}__`,
@@ -68,7 +69,7 @@ export default class HelpCmd extends BaseCommand {
           }
         })
       }
-      return responder.embed(embed).send()
+      return responder.channel(channelId).embed(embed).send()
     } else {
       const cmdName = parsedArgs._[0]
       const command = this.allCmds.find((cmd) => cmd.info.name === cmdName || (cmd.info.aliases && cmd.info.aliases.includes(cmdName)))

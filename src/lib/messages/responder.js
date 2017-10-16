@@ -79,7 +79,7 @@ class FormatedString {
 class Responder extends FormatedString {
   constructor (channel) {
     super('')
-    this.channel = channel
+    this.channelId = channel.id
 
     this.str = ''
     this._file = undefined
@@ -108,9 +108,14 @@ class Responder extends FormatedString {
     return this
   }
 
+  channel (channelId) {
+    this.channelId = channelId
+    return this
+  }
+
   async send () {
     try {
-      var ret = await bot.createMessage(this.channel.id,
+      var ret = await bot.createMessage(this.channelId,
       { content: this.str, embed: this._embed },
       this._file)
 
