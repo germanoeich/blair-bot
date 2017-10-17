@@ -42,6 +42,9 @@ class WeebshGenericCmd extends BaseCommand {
     const embed = {
       image: {
         url: await this.weebsh.getRandom(this.type, false)
+      },
+      footer: {
+        text: 'Powered by weeb.sh'
       }
     }
     return responder.embed(embed).send()
