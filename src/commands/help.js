@@ -37,7 +37,7 @@ export default class HelpCmd extends BaseCommand {
         color: parseInt('815FC0', 16),
         footer: {
           icon_url: 'https://cdn.discordapp.com/avatars/358403319523180544/837fafe1f4a2ed5242b1025a18e05d37.png',
-          text: 'Tip: Use "help <command> to get help on a specific command. You can also use "help -c <category>" to filter this.'
+          text: 'Tip: Use "help <command>" to get help on a specific command. You can also use "help -c <category>" to filter this.'
         },
         author: {
           name: 'Blair',
