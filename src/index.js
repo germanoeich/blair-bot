@@ -13,6 +13,7 @@ import redis from './data/redis.js'
 import metrics from './metrics'
 import Raven from 'raven'
 import blocked from 'blocked-at'
+import fetch from 'node-fetch'
 /* eslint-enable import/first */
 
 let _bot
@@ -21,6 +22,8 @@ export async function connect () {
   if (process.env.NODE_ENV !== 'test') {
     blocked((t, stack) => console.warn(`Blocked for [${t}]\n${stack}`))
   }
+
+  fetch.Promise = bluebird
 
   Raven.config(config.sentry.dsn, {
     environment: process.env.NODE_ENV,
@@ -56,7 +59,7 @@ export async function connect () {
     init(_bot)
     initPlayer(_bot, config.lavalink.hosts)
 
-    registerCommands(_bot)
+    await registerCommands(_bot)
     await applyGuildPrefixes()
     if (process.send) {
       process.send('ready')

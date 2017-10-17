@@ -8,14 +8,14 @@ import HelpCmd from './help'
 
 const categories = []
 
-export function registerCommands (bot) {
-  categories.push(exclusive, fun, misc, moderation, music)
+export async function registerCommands (bot) {
+  categories.push(exclusive, fun, misc, moderation, music, images)
   exclusive.register(bot)
   fun.register(bot)
   misc.register(bot)
   moderation.register(bot)
   music.register(bot)
-  images.register(bot)
+  await images.register(bot)
 
   var helpCmd = new HelpCmd(bot, categories)
   helpCmd.register()

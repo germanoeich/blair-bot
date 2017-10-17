@@ -37,7 +37,7 @@ export default class HelpCmd extends BaseCommand {
         color: parseInt('815FC0', 16),
         footer: {
           icon_url: 'https://cdn.discordapp.com/avatars/358403319523180544/837fafe1f4a2ed5242b1025a18e05d37.png',
-          text: 'Tip: You can use "help -f" to get a more detailed command list'
+          text: 'Tip: Use "help <command> to get help on a specific command. You can also use "help -c <category>" to filter this.'
         },
         author: {
           name: 'Blair',
@@ -46,30 +46,17 @@ export default class HelpCmd extends BaseCommand {
         },
         fields: []
       }
-      let channelId = msg.channel.id
-      if (parsedArgs.f) {
-        channelId = (await msg.author.getDMChannel()).id
-        embed.fields = categories.map((element) => {
-          return {
-            name: `__${element.categoryName}__`,
-            value: element.cmds.map((cmd) => {
-              return `**${cmd.info.name}${cmd.info.aliases ? ` | ${cmd.info.aliases.join(' | ')}` : ''}** - ${cmd.info.description}\n`
-            }).join('')
-          }
-        })
 
-        embed.footer.text = 'Tip: You can use "help -c <name>" to show only given category. The flags -c and -f can be used together.'
-      } else {
-        embed.fields = categories.map((element) => {
-          return {
-            name: element.categoryName,
-            value: element.cmds.map((cmd) => {
-              return `\`${cmd.info.name}\``
-            }).join(', ')
-          }
-        })
-      }
-      return responder.channel(channelId).embed(embed).send()
+      embed.fields = categories.map((element) => {
+        return {
+          name: element.categoryName,
+          value: element.cmds.map((cmd) => {
+            return `\`${cmd.info.name}\``
+          }).join(', ')
+        }
+      })
+
+      return responder.embed(embed).send()
     } else {
       const cmdName = parsedArgs._[0]
       const command = this.allCmds.find((cmd) => cmd.info.name === cmdName || (cmd.info.aliases && cmd.info.aliases.includes(cmdName)))
