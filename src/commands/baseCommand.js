@@ -17,6 +17,8 @@ export default class BaseCommand {
     this.redisClient = redis.connect()
   }
 
+  action (bot, msg) {}
+
   addSubCommand (obj) {
     this.subcommands.push(obj)
   }
