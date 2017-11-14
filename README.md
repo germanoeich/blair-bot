@@ -1,5 +1,8 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Build Status](https://travis-ci.org/germanoeich/blair-bot.svg?branch=master)](https://travis-ci.org/germanoeich/blair-bot) [![Known Vulnerabilities](https://snyk.io/test/github/germanoeich/blair-bot/badge.svg)](https://snyk.io/test/github/germanoeich/blair-bot) [![Maintainability](https://api.codeclimate.com/v1/badges/aa55dbaefe2920ad2eca/maintainability)](https://codeclimate.com/github/germanoeich/blair-bot/maintainability)
 
+# Notice
+This project has been put on hold since my efforts are being targetted towards [Dyno](https://www.dynobot.net).
+
 # Blair
 
 Blair is an open-source multi-purpose discord bot. It's an WIP, so expect things to be broken and zero docs right now. I plan on doing a serie of blog posts explaining the process of creating a discord bot as soon as I finish this project (or get it into an usable state).
