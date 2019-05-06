@@ -25,7 +25,8 @@
     "uws": "^8.14.0",
     "valid-url": "^1.0.9",
     "weeb-sh": "^0.3.2",
-    "yargs-parser": "^8.0.0"
+    "yargs-parser": "^8.0.0",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -47,9 +48,12 @@
     "test": "cross-env NODE_ENV=test mocha --compilers js:node_modules/babel-register --timeout 15000 --recursive test/index.js test/*/**",
     "deploy": "pm2 deploy production",
     "pm2_start": "pm2 start dist/index.js --name blair",
-    "pm2_stop": "pm2 delete blair"
+    "pm2_stop": "pm2 delete blair",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "pre-commit": [
     "lint"
-  ]
+  ],
+  "snyk": true
 }
