@@ -25,7 +25,7 @@
     "uws": "^8.14.0",
     "valid-url": "^1.0.9",
     "weeb-sh": "^0.3.2",
-    "yargs-parser": "^8.0.0"
+    "yargs-parser": "^13.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
